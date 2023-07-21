@@ -15,5 +15,7 @@
         const canvasLeftBoundary = 0;
         const canvasRightBoundary = canvas.width - player.width;
 
+       // Define the variables
         let items = [];
         let score = 0;
+        let highScore = 0;

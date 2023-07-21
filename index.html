@@ -44,12 +44,16 @@
         <!-- Add more <source> elements for additional fallback formats as needed -->
     </audio>
 
+    <!-- Button to restart the game -->
+    <button id="restartButton" style="display: none;">Restart Game</button>
+
     <script>
         // Load the background music and start playing it when the page loads
         const backgroundMusic = document.getElementById('backgroundMusic');
         document.addEventListener('DOMContentLoaded', function () {
             backgroundMusic.play();
         });
+
     </script>
 
     <script src="game.js"></script>
@@ -76,9 +80,58 @@
             }
         }
 
+         // Number of objects that can touch the ground before game over
+        const maxObjectsTouchedGround = 3;
+        let objectsTouchedGround = 0;
+
+        // Function to display "GAME OVER" text and the restart button
+        function showGameOver() {
+            ctx.fillStyle = 'red';
+            ctx.font = '40px Arial';
+            const gameOverText = 'GAME OVER';
+            const textWidth = ctx.measureText(gameOverText).width;
+            const textX = (canvas.width - textWidth) / 2;
+            const textY = canvas.height / 2;
+            ctx.fillText(gameOverText, textX, textY);
+
+            // Show the restart button
+            const restartButton = document.getElementById('restartButton');
+            restartButton.style.display = 'block';
+            restartButton.style.position = 'absolute';
+            restartButton.style.left = canvas.offsetLeft + canvas.width / 2 - restartButton.clientWidth / 2 + 'px';
+            restartButton.style.top = canvas.offsetTop + canvas.height / 2 + 50 + 'px';
+        }
+
+        // Function to reset the game
+        function resetGame() {
+            // Reset the game variables
+            score = 0;
+            objectsTouchedGround = 0;
+            items = [];
+            player.x = canvas.width / 2;
+            player.y = canvas.height - 50;
+
+            // Hide the "GAME OVER" text and restart button
+            gameOver = false;
+            const restartButton = document.getElementById('restartButton');
+            restartButton.style.display = 'none';
+
+            // Request the next animation frame to restart the game loop
+            requestAnimationFrame(updateGame);
+        }
+
         // Collision detection
         function checkCollisions() {
             for (let i = 0; i < items.length; i++) {
+
+
+                if (items[i].y + items[i].height >= canvas.height) {
+                    objectsTouchedGround++;
+                    // Remove the object that touched the ground
+                    items.splice(i, 1);
+                }
+
+
                 if (
                     player.x < items[i].x + items[i].width + 10 &&
                     player.x + player.width + 10 > items[i].x &&
@@ -95,6 +148,11 @@
                 ) {
                     items.splice(i, 1);
                     score++;
+
+                    // Update high score if the current score is higher
+                    if (score > highScore) {
+                        highScore = score;
+                    }
                 }
             }
         }
@@ -108,6 +166,15 @@
 
         // Update and draw the game
         function updateGame() {
+
+            // Check if the game is over
+            if (objectsTouchedGround >= maxObjectsTouchedGround) {
+                gameOver = true;
+                const restartButton = document.getElementById('restartButton');
+                restartButton.style.display = 'block'; // Show the restart button
+                showGameOver();
+                return; // Pause the game
+            }
 
             // Move the player based on the direction
             if (rightPressed && player.x < canvas.width - player.width) {
@@ -141,6 +208,15 @@
             ctx.font = '20px Arial';
             ctx.fillText('Score: ' + score, 10, 30);
 
+            // Display the score
+            ctx.fillStyle = 'white';
+            ctx.fillRect(650, 8, 150, 30);
+
+             // Draw the high score
+            ctx.fillStyle = 'black';
+            ctx.font = '20px Arial';
+            ctx.fillText('High Score: ' + highScore, canvas.width - 150, 30);
+
             requestAnimationFrame(updateGame);
         }
 
@@ -149,6 +225,11 @@
 
         // Generate falling items every 2.5 second
         setInterval(createItem, 2500);
+
+        // Event listener for the restart button
+        const restartButton = document.getElementById('restartButton');
+        restartButton.addEventListener('click', resetGame);
+
     </script>
 </body>
 </html>
