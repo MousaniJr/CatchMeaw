@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CathMeaw</title>
+      <style>
+            body {
+                margin: 0;
+                padding: 0;
+                overflow: hidden; /* Prevents scrollbars */
+                background-color: #222; /* Set the background color of the page */
+            }
+
+            canvas {
+                display: block;
+                margin: auto;
+                border: 5px solid black; /* Add a 5px black border around the canvas */
+                background-color: white; /* Set the background color of the canvas */
+                background-image: url('background.jpeg'); /* Replace with the actual image path */
+                background-size: cover; /* Adjust how the background image is sized */
+            }
+        </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+    <!-- Audio element for background music -->
+    <audio id="backgroundMusic" loop>
+        <!-- MP3 format (primary source) -->
+        //<source src="music.mp3" type="audio/mpeg">
+        <!-- OGG format (fallback source) -->
+        //<source src="background.ogg" type="audio/ogg">
+        <!-- Add more <source> elements for additional fallback formats as needed -->
+        <source src="music1.wav" type="audio/wav">
+    </audio>
+
+    <!-- Audio element to play collision sound -->
+    <audio id="collisionSound">
+        <!-- AAC format (primary source) -->
+        //<source src="collision.aac" type="audio/aac">
+        <!-- MP3 format (fallback source) -->
+        <source src="meaw1.mp3" type="audio/mpeg">
+        <!-- OGG format (fallback source) -->
+        //<source src="collision.ogg" type="audio/ogg">
+        <!-- Add more <source> elements for additional fallback formats as needed -->
+    </audio>
+
+    <script>
+        // Load the background music and start playing it when the page loads
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        document.addEventListener('DOMContentLoaded', function () {
+            backgroundMusic.play();
+        });
+    </script>
+
+    <script src="game.js"></script>
+    <script src="images.js"></script>
+    <script src="input.js"></script>
+
+    <script>
+
+        // Create falling items
+        function createItem() {
+            let item = {
+                x: Math.random() * (canvas.width - 50),
+                y: 0,
+                width: 50,
+                height: 50,
+                speed: 3
+            };
+            items.push(item);
+        }
+
+        function moveItems() {
+            for (let i = 0; i < items.length; i++) {
+                items[i].y += items[i].speed;
+            }
+        }
+
+        // Collision detection
+        function checkCollisions() {
+            for (let i = 0; i < items.length; i++) {
+                if (
+                    player.x < items[i].x + items[i].width + 10 &&
+                    player.x + player.width + 10 > items[i].x &&
+                    player.y < items[i].y + items[i].height + 10 &&
+                    player.y + player.height + 10 > items[i].y
+                ) {
+                    playCollisionSound();
+                }
+                if (
+                    player.x < items[i].x + items[i].width - 10 &&
+                    player.x + player.width - 10 > items[i].x &&
+                    player.y < items[i].y + items[i].height - 20 &&
+                    player.y + player.height - 20 > items[i].y
+                ) {
+                    items.splice(i, 1);
+                    score++;
+                }
+            }
+        }
+
+        // Function to play the collision sound
+        function playCollisionSound() {
+            const collisionSound = document.getElementById('collisionSound');
+            collisionSound.playbackRate = 2; // Increase the playback rate (adjust the value as needed)
+            collisionSound.play();
+        }
+
+        // Update and draw the game
+        function updateGame() {
+
+            // Move the player based on the direction
+            if (rightPressed && player.x < canvas.width - player.width) {
+                player.x += player.speed;
+            } else if (leftPressed && player.x > 0) {
+                player.x -= player.speed;
+            }
+
+            moveItems();
+            checkCollisions();
+
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw the player image
+            ctx.drawImage(playerImage, player.x, player.y, player.width, player.height);
+
+            // Draw the falling items
+            for (let i = 0; i < items.length; i++) {
+                const itemImage = new Image();
+                itemImage.src = 'rat.png'; // Replace with the actual path to your item image
+                ctx.drawImage(itemImage, items[i].x, items[i].y, items[i].width, items[i].height);
+            }
+
+            // Display the score
+            ctx.fillStyle = 'white';
+            ctx.fillRect(5, 8, 100, 30);
+
+            // Draw the score
+            ctx.fillStyle = 'black';
+            ctx.font = '20px Arial';
+            ctx.fillText('Score: ' + score, 10, 30);
+
+            requestAnimationFrame(updateGame);
+        }
+
+        // Start the game loop
+        requestAnimationFrame(updateGame);
+
+        // Generate falling items every 2.5 second
+        setInterval(createItem, 2500);
+    </script>
+</body>
+</html>
