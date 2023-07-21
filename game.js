@@ -8,7 +8,7 @@
             y: canvas.height - 50,
             width: 80,
             height: 50,
-            speed: 5
+            speed: 3
         };
 
         // Set Borders limit
