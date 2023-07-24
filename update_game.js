@@ -64,12 +64,12 @@ function updateGame() {
 
     // Display the background High score
     ctx.fillStyle = 'white';
-    ctx.fillRect(650, 8, 150, 30);
+    ctx.fillRect(5, 40, 150, 30);
 
      // Draw the High score
     ctx.fillStyle = 'black';
     ctx.font = '20px Arial';
-    ctx.fillText('High Score: ' + highScore, canvas.width - 150, 30);
+    ctx.fillText('High Score: ' + highScore, 10, 62);
 
     //debug
     if (debug == 1)

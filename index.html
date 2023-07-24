@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 <head>
     <title>CathMeaw</title>
@@ -14,6 +13,10 @@
                 height: 100vh;
             }
 
+            #gameContainer {
+                position: relative; /* Set the position of the game container to relative */
+            }
+
             canvas {
                 display: block;
                 margin: auto;
@@ -23,6 +26,7 @@
                 background-size: cover; /* Adjust how the background image is sized */
             }
 
+             /* Main menu styles... */
              #mainMenuContainer {
                 display: flex;
                 flex-direction: column;
@@ -50,40 +54,51 @@
                 cursor: pointer;
             }
 
+            /* Style for the music toggle image */
+            #musicToggle {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                cursor: pointer;
+                width: 50px;
+                height: 50px;
+            }
+
         </style>
 </head>
-<body>
-    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <body>
 
-    <!-- Audio element for background music -->
-    <audio id="backgroundMusic" loop>
-        <!-- WAV format (primary source) -->
-        <source src="music1.wav" type="audio/wav">
-    </audio>
+    <div id="gameContainer">
 
-    <!-- Audio element to play collision sound -->
-    <audio id="collisionSound">
-        <!-- MP3 format (fallback source) -->
-        <source src="meaw1.mp3" type="audio/mpeg">
-    </audio>
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
 
-    <!-- Button to restart the game -->
-    <button id="restartButton" style="display: none;">Restart Game</button>
+        <!-- Audio element for background music -->
+        <audio id="backgroundMusic" loop>
+            <!-- MP3 format (primary source) -->
+            <source src="bkgmusic.mp3" type="audio/mpeg">
+        </audio>
 
-    <!-- Main menu container -->
-    <div id="mainMenuContainer">
-        <h1>Welcome to CatMeaw</h1>
-        <button id="startButton">Start</button>
+        <!-- Audio element to play collision sound -->
+        <audio id="collisionSound">
+            <!-- MP3 format (fallback source) -->
+            <source src="meaw1.mp3" type="audio/mpeg">
+        </audio>
+
+        <!-- Button to restart the game -->
+        <button id="restartButton" style="display: none;">Restart Game</button>
+
+        <!-- Main menu container -->
+        <div id="mainMenuContainer">
+            <h1>Welcome to CathMeaw</h1>
+            <button id="startButton">Start</button>
+        </div>
+
+        <!-- Image to toggle background music -->
+        <img id="musicToggle" src="musicON.png" alt="Music ON">
+
     </div>
 
-<!--    <script>-->
-<!--        //Load the background music and start playing it when the page loads-->
-<!--        const backgroundMusic = document.getElementById('backgroundMusic');-->
-<!--        document.addEventListener('DOMContentLoaded', function () {-->
-<!--        backgroundMusic.play();-->
-<!--        });-->
-<!--    </script>-->
-
+    <!-- Scripts for the game -->
     <script src="game.js"></script>
     <script src="images.js"></script>
     <script src="input.js"></script>
