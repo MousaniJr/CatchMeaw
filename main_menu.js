@@ -16,7 +16,7 @@ function startGame() {
     // Unpause the game
     isGamePaused = false;
 
-    // Start generating falling items
+    // Start generating falling items ms
     setInterval(createItem, 2500);
 
     // Start the game loop
