@@ -10,6 +10,7 @@ function createItem() {
     items.push(item);
 }
 
+// moving down the item created
 function moveItems() {
     for (let i = 0; i < items.length; i++) {
         items[i].y += items[i].speed;

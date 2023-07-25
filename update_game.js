@@ -1,13 +1,3 @@
-const maxFPS = 60;
-const frameTime = 1000 / maxFPS;
-
-// Variable to keep track of the last timestamp and count frames
-let lastTimestamp = 0;
-let frameCount = 0;
-let lastFPSUpdate = 0;
-let currentFPS = 0;
-const fpsUpdateInterval = 500; // Update FPS every 500ms (0.5 seconds)
-
 // Function to calculate and display the FPS
 function displayFPS() {
     const now = performance.now();
@@ -26,8 +16,11 @@ function displayFPS() {
         ctx.strokeText('FPS: ' + currentFPS, 705, 515);
         ctx.fillText('FPS: ' + currentFPS, 705, 515); // Position it below the High Score text
     }
-
 }
+
+// Define a variable to store the player's original position
+let originalPlayerX = canvas.width / 2;
+let originalPlayerY = canvas.height - 50;
 
 // Update and draw the game
 function updateGame(timestamp) {
@@ -44,7 +37,6 @@ function updateGame(timestamp) {
     }
 
     lastTimestamp = timestamp; // Update lastTimestamp after the delay (if any)
-
     frameCount++;
 
     // If the game is paused, don't update or render the game
@@ -69,8 +61,39 @@ function updateGame(timestamp) {
         player.x -= player.speed;
     }
 
-    moveItems(); // Move the falling items
+    // Move the player based on the direction
+    if (rightPressed && player.x < canvas.width - player.width) {
+        player.x += player.speed;
+    } else if (leftPressed && player.x > 0) {
+        player.x -= player.speed;
+    }
 
+    // Check for collision with items and jump towards them
+    for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+
+        // Calculate distance between player and item
+        const distanceX = item.x - player.x;
+        const distanceY = item.y - player.y;
+        const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+        // If the item is within 100 pixels distance, jump towards it
+        if (distance < 80) {
+            const jumpSpeed = 8; // Adjust the jump speed as needed
+            const jumpDistanceX = (distanceX / distance) * jumpSpeed;
+            const jumpDistanceY = (distanceY / distance) * jumpSpeed;
+            player.x += jumpDistanceX;
+            player.y += jumpDistanceY;
+        }
+    }
+
+    // If the distance exceeds 100 pixels, return to the original position Y
+    const returnSpeed = 8; // Adjust the return speed as needed
+    const returnDistanceY = (originalPlayerY - player.y) / returnSpeed;
+    player.y += returnDistanceY;
+
+
+    moveItems(); // Move the falling items
     checkCollisions();
 
     // Clear the canvas
@@ -86,7 +109,7 @@ function updateGame(timestamp) {
         itemImage.src = 'rat.png'; // Replace with the actual path to your item image
         ctx.drawImage(itemImage, items[i].x, items[i].y, items[i].width, items[i].height);
 
-        //debug
+        //++++++++debug+++++++++
         if (debug == 1)
         {
             ctx.strokeStyle = 'black'; // Set the color of the outline
@@ -117,7 +140,8 @@ function updateGame(timestamp) {
     ctx.font = '20px Arial';
     ctx.fillText('High Score: ' + highScore, 10, 62);
 
-    //debug
+
+    //++++++++debug+++++++++
     if (debug == 1)
     {
         ctx.strokeStyle = 'black'; // Set the color of the outline
@@ -127,7 +151,7 @@ function updateGame(timestamp) {
         ctx.strokeText('Player SPD: ' + player.speed, 660, 590);
         ctx.fillText('Player SPD: ' + player.speed, 660, 590);
     }
-    //debug
+    //++++++++debug+++++++++
     if (debug == 1)
     {
         ctx.strokeStyle = 'black'; // Set the color of the outline

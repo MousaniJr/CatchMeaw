@@ -1,12 +1,21 @@
 // Function to display "GAME OVER" text and the restart button
 function showGameOver() {
+    // Show GAME OVER text in the middle of the display with a shadow
     ctx.fillStyle = 'red';
-    ctx.font = '40px Arial';
+    ctx.font = 'bold 60px Arial';
+    ctx.shadowColor = 'black'; // Set the shadow color to black
+    ctx.shadowOffsetX = 5; // Set the horizontal shadow offset
+    ctx.shadowOffsetY = 5; // Set the vertical shadow offset
     const gameOverText = 'GAME OVER';
     const textWidth = ctx.measureText(gameOverText).width;
     const textX = (canvas.width - textWidth) / 2;
     const textY = canvas.height / 2;
     ctx.fillText(gameOverText, textX, textY);
+
+    // Reset the shadow settings to avoid affecting other elements
+    ctx.shadowColor = 'transparent';
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
 
     // Show the restart button
     const restartButton = document.getElementById('restartButton');

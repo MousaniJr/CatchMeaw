@@ -15,6 +15,7 @@ const backgroundMusic = document.getElementById('backgroundMusic');
 
 // Variable to keep track of music state (ON/OFF)
 let isMusicPlaying = true;
+
 // Function to toggle background music on/off
 function toggleBackgroundMusic() {
     if (isMusicPlaying) {
@@ -31,9 +32,11 @@ function toggleBackgroundMusic() {
     if (isMusicPlaying) {
         musicToggle.src = "musicON.png";
         musicToggle.alt = "Music ON";
+        musicTurnedOff = false;
     } else {
         musicToggle.src = "musicOFF.png";
         musicToggle.alt = "Music OFF";
+        musicTurnedOff = true;
     }
 }
 // Add a click event listener to the musicToggle image
@@ -54,10 +57,12 @@ function startGame() {
     // Start generating falling items every 2500ms (2.5 seconds)
     itemInterval = setInterval(createItem, 2500);
 
-    // Reduce background music volume to half
-    backgroundMusic.volume = 0.5;
-    // Play background music
-    backgroundMusic.play();
+    if (musicTurnedOff == false) {
+        // Play background music
+        backgroundMusic.play();
+        // Reduce background music volume to half
+        backgroundMusic.volume = 0.3;
+    }
 
     // Start the game loop
     requestAnimationFrame(updateGame);
@@ -73,6 +78,7 @@ function pauseGame() {
 
     // Pause the background music
     backgroundMusic.pause();
+
 }
 // Add event listener to handle window focus/blur
 window.addEventListener('focus', startGame);

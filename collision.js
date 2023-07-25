@@ -1,7 +1,3 @@
-// Number of objects that can touch the ground before game over
-const maxObjectsTouchedGround = 3;
-let objectsTouchedGround = 0;
-
 // Collision detection
 function checkCollisions() {
     for (let i = 0; i < items.length; i++) {
@@ -11,10 +7,11 @@ function checkCollisions() {
         {
             objectsTouchedGround++;
             // Remove the object that touched the ground
+            playGroundCollision()
             items.splice(i, 1);
         }
 
-        // + 10 to sync the audio
+        // + 10px to sync the audio
         if (
             player.x < items[i].x + items[i].width + 10 &&
             player.x + player.width + 10 > items[i].x &&
@@ -45,6 +42,15 @@ function checkCollisions() {
 // Function to play the collision sound
 function playCollisionSound() {
     const collisionSound = document.getElementById('collisionSound');
-    collisionSound.playbackRate = 2; // Increase the playback rate (adjust the value as needed)
+    collisionSound.playbackRate = 1; // Increase the playback rate (adjust the value as needed)
+    collisionSound.volume = 1; // Set the volume to 0.8 (80% of the maximum volume)
     collisionSound.play();
+}
+
+// Function to play the ground collision
+function playGroundCollision() {
+    const groundCollision = document.getElementById('groundCollision');
+    groundCollision.playbackRate = 2; // Increase the playback rate (adjust the value as needed)
+    groundCollision.volume = 0.5; // Set the volume to 0.8 (80% of the maximum volume)
+    groundCollision.play();
 }

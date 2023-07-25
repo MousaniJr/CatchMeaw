@@ -11,12 +11,9 @@ let player = {
     speed: 3
 };
 
-// Set Borders limit
+let playerImage = new Image();
+playerImage.src = 'player-right.png'; // Replace with the actual path to the right player image
+
+// Set Borders limit to the player
 const canvasLeftBoundary = 0;
 const canvasRightBoundary = canvas.width - player.width;
-
-// Define the variables
-let items = [];
-let score = 0;
-let highScore = 0;
-let debug = 0;

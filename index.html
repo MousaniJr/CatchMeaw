@@ -26,8 +26,8 @@
                 background-size: cover; /* Adjust how the background image is sized */
             }
 
-             /* Main menu styles... */
-             #mainMenuContainer {
+            /* Main menu styles... */
+            #mainMenuContainer {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
@@ -38,6 +38,14 @@
                 z-index: 1;
                 font-family: Arial, sans-serif;
                 color: white;
+                background-image: url('splash.jpeg'); /* Replace with the actual path to the background image */
+                background-size: cover; /* Adjust how the background image is sized */
+                padding: 20px; /* Add padding if needed */
+
+                /* Set the size of the mainMenuContainer to match the game canvas */
+                width: 800px; /* Replace with the width of your game canvas */
+                height: 600px; /* Replace with the height of your game canvas */
+
             }
 
             #mainMenuContainer h1 {
@@ -81,7 +89,13 @@
         <!-- Audio element to play collision sound -->
         <audio id="collisionSound">
             <!-- MP3 format (fallback source) -->
-            <source src="meaw1.mp3" type="audio/mpeg">
+            <source src="Eat.mp3" type="audio/mpeg">
+        </audio>
+
+                <!-- Audio element to play ground collision sound -->
+        <audio id="groundCollision">
+            <!-- MP3 format (fallback source) -->
+            <source src="meaw.mp3" type="audio/mpeg">
         </audio>
 
         <!-- Button to restart the game -->
@@ -99,8 +113,8 @@
     </div>
 
     <!-- Scripts for the game -->
+    <script src="variables.js"></script>
     <script src="game.js"></script>
-    <script src="images.js"></script>
     <script src="input.js"></script>
     <script src="falling_items.js"></script>
     <script src="collision.js"></script>
