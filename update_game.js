@@ -1,5 +1,51 @@
+const maxFPS = 60;
+const frameTime = 1000 / maxFPS;
+
+// Variable to keep track of the last timestamp and count frames
+let lastTimestamp = 0;
+let frameCount = 0;
+let lastFPSUpdate = 0;
+let currentFPS = 0;
+const fpsUpdateInterval = 500; // Update FPS every 500ms (0.5 seconds)
+
+// Function to calculate and display the FPS
+function displayFPS() {
+    const now = performance.now();
+    if (now - lastFPSUpdate >= fpsUpdateInterval) {
+        currentFPS = Math.round((frameCount * 1000) / (now - lastFPSUpdate));
+        frameCount = 0;
+        lastFPSUpdate = now;
+    }
+    //debug show fps
+    if (debug == 1)
+    {
+        ctx.strokeStyle = 'black'; // Set the color of the outline
+        ctx.lineWidth = 3; // Set the width of the outline
+        ctx.fillStyle = 'green';
+        ctx.font = '20px Arial';
+        ctx.strokeText('FPS: ' + currentFPS, 705, 515);
+        ctx.fillText('FPS: ' + currentFPS, 705, 515); // Position it below the High Score text
+    }
+
+}
+
 // Update and draw the game
-function updateGame() {
+function updateGame(timestamp) {
+
+    // Calculate the elapsed time since the last frame
+    const deltaTime = timestamp - lastTimestamp;
+
+    // If the elapsed time is less than the frame time, delay the next frame
+    if (deltaTime < frameTime) {
+        setTimeout(() => {
+            requestAnimationFrame(updateGame);
+        }, frameTime - deltaTime);
+        return;
+    }
+
+    lastTimestamp = timestamp; // Update lastTimestamp after the delay (if any)
+
+    frameCount++;
 
     // If the game is paused, don't update or render the game
     if (isGamePaused) {
@@ -92,6 +138,8 @@ function updateGame() {
         ctx.fillText('Touched Grd: ' + objectsTouchedGround, 650, 540);
     }
 
+   // Display the FPS
+    displayFPS();
 
     requestAnimationFrame(updateGame);
 }

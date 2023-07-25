@@ -19,4 +19,4 @@ const canvasRightBoundary = canvas.width - player.width;
 let items = [];
 let score = 0;
 let highScore = 0;
-let debug = 1;
+let debug = 0;

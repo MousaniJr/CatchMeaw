@@ -6,14 +6,14 @@ let objectsTouchedGround = 0;
 function checkCollisions() {
     for (let i = 0; i < items.length; i++) {
 
-        if (
-            items[i].y + items[i].height >= canvas.height
-           ) {
+        // Count when at least half of the item's height touches the ground
+        if (items[i].y + items[i].height / 2 >= canvas.height)
+        {
             objectsTouchedGround++;
             // Remove the object that touched the ground
             items.splice(i, 1);
-
         }
+
         // + 10 to sync the audio
         if (
             player.x < items[i].x + items[i].width + 10 &&
@@ -23,6 +23,8 @@ function checkCollisions() {
         ) {
             playCollisionSound();
         }
+
+        // count when the player touch the item
         if (
             player.x < items[i].x + items[i].width - 10 &&
             player.x + player.width - 10 > items[i].x &&

@@ -5,7 +5,7 @@ function createItem() {
         y: 0,
         width: 50,
         height: 50,
-        speed: 3 // Initial speed
+        speed: 2 + Math.floor(score / 10) * 0.5 // Initial speed, adjusted based on score
     };
     items.push(item);
 }
