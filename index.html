@@ -22,7 +22,7 @@
                 margin: auto;
                 border: 5px solid black; /* Add a 5px black border around the canvas */
                 background-color: white; /* Set the background color of the canvas */
-                background-image: url('background.jpeg'); /* Replace with the actual image path */
+                background-image: url('media/background.jpeg'); /* Replace with the actual image path */
                 background-size: cover; /* Adjust how the background image is sized */
             }
 
@@ -38,7 +38,7 @@
                 z-index: 1;
                 font-family: Arial, sans-serif;
                 color: white;
-                background-image: url('splash.jpeg'); /* Replace with the actual path to the background image */
+                background-image: url('media/splash.jpeg'); /* Replace with the actual path to the background image */
                 background-size: cover; /* Adjust how the background image is sized */
                 padding: 20px; /* Add padding if needed */
 
@@ -56,10 +56,13 @@
             #startButton {
                 padding: 10px 20px;
                 font-size: 24px;
-                background-color: #4CAF50;
+                background-color: red;
                 border: none;
                 color: white;
                 cursor: pointer;
+                width: 130px;
+                height: 60px;
+                border-radius: 10px;
             }
 
             /* Style for the music toggle image */
@@ -72,55 +75,85 @@
                 height: 50px;
             }
 
+            #heartsContainer {
+                display: flex;
+                justify-content: center;
+                position: absolute;
+                top: 10px;
+                left: calc(50% - 150px); /* To center the container */
+            }
+
+            #restartButton {
+                padding: 10px 20px;
+                font-size: 18px;
+                background-color: red;
+                border: none;
+                color: black;
+                cursor: pointer;
+                /* Add the height property to increase the height of the button */
+                width: 100px;
+                height: 40px;
+                border-radius: 10px;
+            }
         </style>
 </head>
     <body>
 
-    <div id="gameContainer">
+        <div id="gameContainer">
 
-        <canvas id="gameCanvas" width="800" height="600"></canvas>
+            <canvas id="gameCanvas" width="800" height="600"></canvas>
 
-        <!-- Audio element for background music -->
-        <audio id="backgroundMusic" loop>
-            <!-- MP3 format (primary source) -->
-            <source src="bkgmusic.mp3" type="audio/mpeg">
-        </audio>
+            <!-- Audio element for background music -->
+            <audio id="backgroundMusic" loop>
+                <!-- MP3 format (primary source) -->
+                <source src="media/bkgmusic.mp3" type="audio/mpeg">
+            </audio>
 
-        <!-- Audio element to play collision sound -->
-        <audio id="collisionSound">
-            <!-- MP3 format (fallback source) -->
-            <source src="Eat.mp3" type="audio/mpeg">
-        </audio>
+            <!-- Audio element to play collision sound -->
+            <audio id="collisionSound">
+                <!-- MP3 format (fallback source) -->
+                <source src="media/Eat.mp3" type="audio/mpeg">
+            </audio>
 
-                <!-- Audio element to play ground collision sound -->
-        <audio id="groundCollision">
-            <!-- MP3 format (fallback source) -->
-            <source src="meaw.mp3" type="audio/mpeg">
-        </audio>
+                    <!-- Audio element to play ground collision sound -->
+            <audio id="groundCollision">
+                <!-- MP3 format (fallback source) -->
+                <source src="media/meaw.mp3" type="audio/mpeg">
+            </audio>
 
-        <!-- Button to restart the game -->
-        <button id="restartButton" style="display: none;">Restart Game</button>
+            <!-- Button to restart the game -->
+            <button id="restartButton" style="display: none;">Restart</button>
 
-        <!-- Main menu container -->
-        <div id="mainMenuContainer">
-            <h1>Welcome to CathMeaw</h1>
-            <button id="startButton">Start</button>
+            <!-- Main menu container -->
+            <div id="mainMenuContainer">
+                <h1>Welcome to CathMeaw</h1>
+                <button id="startButton" style="position: absolute; top: 490px; left: 42%;">Start</button>
+                <!-- Additional image -->
+                <img src="media/instruccions0.png" alt="Additional Image" style="width: 300px; height: 300px; position: absolute; top: 140px; left: 270;">
+
+            </div>
+
+            <!-- Image to toggle background music -->
+            <img id="musicToggle" src="media/musicON.png" alt="Music ON">
+
+            <div id="heartsContainer">
+                <!-- Full hearts -->
+                <img src="media/fullheart.png" id="heart1" class="full-heart" width="35" height="35">
+                <img src="media/fullheart.png" id="heart2" class="full-heart" width="35" height="35">
+                <img src="media/fullheart.png" id="heart3" class="full-heart" width="35" height="35">
+            </div>
+
         </div>
 
-        <!-- Image to toggle background music -->
-        <img id="musicToggle" src="musicON.png" alt="Music ON">
+        <!-- Scripts for the game -->
+        <script src="variables.js"></script>
+        <script src="game.js"></script>
+        <script src="input.js"></script>
+        <script src="falling_items.js"></script>
+        <script src="collision.js"></script>
+        <script src="game_over.js"></script>
+        <script src="update_game.js"></script>
+        <script src="main_menu.js"></script>
 
-    </div>
-
-    <!-- Scripts for the game -->
-    <script src="variables.js"></script>
-    <script src="game.js"></script>
-    <script src="input.js"></script>
-    <script src="falling_items.js"></script>
-    <script src="collision.js"></script>
-    <script src="game_over.js"></script>
-    <script src="update_game.js"></script>
-    <script src="main_menu.js"></script>
-
-</body>
+    </body>
 </html>

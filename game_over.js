@@ -1,5 +1,7 @@
+//update the game_over.js with the code:
 // Function to display "GAME OVER" text and the restart button
 function showGameOver() {
+
     // Show GAME OVER text in the middle of the display with a shadow
     ctx.fillStyle = 'red';
     ctx.font = 'bold 60px Arial';
@@ -33,6 +35,8 @@ function resetGame() {
     items = [];
     player.x = canvas.width / 2;
     player.y = canvas.height - 50;
+    resetHearts(); // Reset the heart images to full hearts
+    playerLife = 3;
 
     // Hide the "GAME OVER" text and restart button
     gameOver = false;

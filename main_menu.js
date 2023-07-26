@@ -7,9 +7,6 @@ const musicToggle = document.getElementById('musicToggle');
 // Add a click event listener to the start button
 startButton.addEventListener('click', startGame);
 
-// Initialize the game state (paused initially)
-let isGamePaused = true;
-
 // Audio element for background music
 const backgroundMusic = document.getElementById('backgroundMusic');
 
@@ -30,11 +27,11 @@ function toggleBackgroundMusic() {
 
     // Change the musicON image based on music state
     if (isMusicPlaying) {
-        musicToggle.src = "musicON.png";
+        musicToggle.src = "media/musicON.png";
         musicToggle.alt = "Music ON";
         musicTurnedOff = false;
     } else {
-        musicToggle.src = "musicOFF.png";
+        musicToggle.src = "media/musicOFF.png";
         musicToggle.alt = "Music OFF";
         musicTurnedOff = true;
     }

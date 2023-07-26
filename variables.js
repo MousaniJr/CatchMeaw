@@ -20,3 +20,13 @@ let currentFPS = 0;
 const fpsUpdateInterval = 500; // Update FPS every 500ms (0.5 seconds)
 
 let musicTurnedOff = false; //control if the music was paused
+
+// Initialize the game state (paused initially)
+let isGamePaused = true;
+let gameStarted = false;
+
+let playerLife = 3;
+//gameOver = false;
+
+// New variable to track player's jump state
+let isJumping = false;

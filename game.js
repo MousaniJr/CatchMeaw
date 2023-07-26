@@ -12,7 +12,7 @@ let player = {
 };
 
 let playerImage = new Image();
-playerImage.src = 'player-right.png'; // Replace with the actual path to the right player image
+playerImage.src = 'media/player-right.png'; // Replace with the actual path to the right player image
 
 // Set Borders limit to the player
 const canvasLeftBoundary = 0;
