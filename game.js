@@ -1,3 +1,4 @@
+// update the game.js file with the code:
 // Set up the game canvas and context
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');

@@ -1,3 +1,4 @@
+//update the main_menu.js with the code:
 // Get references to the necessary DOM elements
 const startButton = document.getElementById('startButton');
 const mainMenuContainer = document.getElementById('mainMenuContainer');
@@ -9,6 +10,10 @@ startButton.addEventListener('click', startGame);
 
 // Audio element for background music
 const backgroundMusic = document.getElementById('backgroundMusic');
+
+// Preload the bonus item image
+const bonusItemImage = new Image();
+bonusItemImage.src = 'media/ratBonus.png';
 
 // Variable to keep track of music state (ON/OFF)
 let isMusicPlaying = true;
@@ -48,6 +53,9 @@ function startGame() {
     // Unpause the game
     isGamePaused = false;
 
+    // Start the game
+    isGameRunning = true;
+
     // Clear any existing item interval (if it exists)
     clearInterval(itemInterval);
 
@@ -75,8 +83,15 @@ function pauseGame() {
 
     // Pause the background music
     backgroundMusic.pause();
-
 }
-// Add event listener to handle window focus/blur
-window.addEventListener('focus', startGame);
-window.addEventListener('blur', pauseGame);
+
+// Add event listener to detect when the tab becomes active
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible' && isGameRunning == true) {
+        // Tab became active, start the game loop
+        startGame();
+    } else {
+        // Tab became inactive, stop the game loop
+        pauseGame();
+    }
+});

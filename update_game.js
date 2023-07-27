@@ -3,6 +3,12 @@
 let originalPlayerX = canvas.width / 2;
 let originalPlayerY = canvas.height - 50;
 
+// Define a variable to store the player's original speed
+const originalPlayerSpeed = player.speed;
+
+// Variable to track the remaining duration of the speed bonus in milliseconds
+let speedBonusDuration = 0;
+
 // Update and draw the game
 function updateGame(timestamp) {
 
@@ -52,22 +58,59 @@ function updateGame(timestamp) {
         player.y += returnDistanceY;
     }
 
-
     moveItems(); // Move the falling items
     checkCollisions();
 
     // Clear the canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // If the player has a speed bonus, update the remaining duration
+    if (speedBonusDuration > 0) {
+        speedBonusDuration -= deltaTime;
+        // If the bonus duration is over, reset the player's speed
+        if (speedBonusDuration <= 0) {
+            player.speed = originalPlayerSpeed;
+        }
+    }
+
+
     // Draw the player image
     ctx.drawImage(playerImage, player.x, player.y, player.width, player.height);
+
+    // Update the remaining time of the speed bonus in the HTML
+    const speedBonusTime = document.getElementById('speedBonusTime');
+    if (speedBonusDuration > 0) {
+        const remainingTime = Math.ceil(speedBonusDuration / 1000); // Convert milliseconds to seconds
+        speedBonusTime.textContent = `Speed Bonus: ${remainingTime}s`;
+    } else {
+        speedBonusTime.textContent = '';
+    }
+
 
     // Draw the falling items
     for (let i = 0; i < items.length; i++)
     {
         const itemImage = new Image();
-        itemImage.src = 'media/rat.png'; // Replace with the actual path to your item image
-        ctx.drawImage(itemImage, items[i].x, items[i].y, items[i].width, items[i].height);
+        itemImage.src = items[i].image; // Use the correct image path
+
+        //ctx.drawImage(itemImage, items[i].x, items[i].y, items[i].width, items[i].height);
+
+
+        // Save the current canvas state
+        ctx.save();
+
+        // Translate to the center of the item
+        ctx.translate(items[i].x + items[i].width / 2, items[i].y + items[i].height / 2);
+
+        // Rotate the item
+        ctx.rotate((items[i].rotation * Math.PI) / 180);
+
+        // Draw the item with rotation applied
+        ctx.drawImage(itemImage, -items[i].width / 2, -items[i].height / 2, items[i].width, items[i].height);
+
+        // Restore the canvas state
+        ctx.restore();
+
 
         //++++++++debug+++++++++
         if (debug == 1)
@@ -95,11 +138,6 @@ function updateGame(timestamp) {
 
     // Draw the High score with a shadow
     ctx.fillText('High Score: ' + highScore, 10, 62);
-
-//    // Reset the shadow settings to avoid affecting other elements
-//    ctx.shadowColor = 'transparent';
-//    ctx.shadowOffsetX = 0;
-//    ctx.shadowOffsetY = 0;
 
     // Draw heart images
     const heartsContainer = document.getElementById('heartsContainer');

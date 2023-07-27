@@ -12,6 +12,7 @@ function areRectanglesColliding(rect1, rect2) {
 // Collision detection
 function checkCollisions() {
 
+    //creating the rect1 around the player
     const playerRect = {
         x: player.x + player.width * 0.5, // Reduce the width by 50%
         y: player.y + player.height * 0.5, // Reduce the height by 50%
@@ -19,38 +20,34 @@ function checkCollisions() {
         height: player.height * 0.5 // 50% of the original height
     };
 
+
     for (let i = 0; i < items.length; i++) {
         const item = items[i];
         const itemRect = {
             x: item.x - 10, // Add a buffer zone of 10 pixels around the item
             y: item.y - 10,
-            width: item.width + 20,
-            height: item.height + 20
+            width: item.width + 10,
+            height: item.height + 10
         };
 
-        // Check for collision between player and item rectangle
+        // Check for collision between PLAYER and RATS rectangle
         if (areRectanglesColliding(playerRect, itemRect)) {
-            playCollisionSound();
-            items.splice(i, 1);
-            score++;
-
-            // Update high score if the current score is higher
-            if (score > highScore) {
-                highScore = score;
+            if (item.image === 'media/rat.png') {
+                handleItemCollision(i);
+            } else if (item.image === 'media/ratBonus.png') {
+                handleBonusItemCollision(i);
+            } else if (item.image === 'media/ratLife.png') {
+                handleLifeItemCollision(i);
             }
         }
 
-        // Count when at least half of the item's height touches the ground
-        if (item.y + item.height / 2 >= canvas.height) {
+        // Check for collision when RATS touches the ground (excluding ratLife)
+        if (item.y + item.height / 2 >= canvas.height && item.image !== 'media/ratLife.png') {
             objectsTouchedGround++;
-            // Remove the object that touched the ground
             playGroundCollision();
-            items.splice(i, 1);
-
-            // Reduce player's life and update heart images
             playerLife--;
             updateHeartImages();
-
+            items.splice(i, 1);
         }
     }
 }
@@ -86,8 +83,15 @@ function updateHeartImages() {
         default:
             break;
     }
+   // Update the position of the speedBonusTime element under the hearts container
+  const speedBonusTime = document.getElementById('speedBonusTime');
+  if (speedBonusDuration > 0) {
+    const remainingTime = Math.ceil(speedBonusDuration / 1000); // Convert milliseconds to seconds
+    speedBonusTime.textContent = `Speed Bonus: ${remainingTime}s`;
+  } else {
+    speedBonusTime.textContent = '';
+  }
 }
-
 
 // Function to play the collision sound
 function playCollisionSound() {
@@ -103,4 +107,58 @@ function playGroundCollision() {
     groundCollision.playbackRate = 2; // Increase the playback rate (adjust the value as needed)
     groundCollision.volume = 0.5; // Set the volume to 0.8 (80% of the maximum volume)
     groundCollision.play();
+}
+
+// Function to handle collision with a regular item
+function handleItemCollision(index) {
+    // Increment the score
+    score++;
+
+    // Increase the player's speed
+    //player.speed += 0.5; // Adjust the speed bonus as needed
+
+    // Remove the collided item from the items array
+    items.splice(index, 1);
+
+    // Play the collision sound
+    playCollisionSound();
+}
+
+// Function to handle collision with the bonus item
+function handleBonusItemCollision(index) {
+    // Increment the score
+    score++;
+
+    // Apply the speed bonus to the player
+    if(player.speed == 3) {
+        player.speed += 2; // The player gains a speed bonus of +2
+    }
+
+    // Set the duration of the speed bonus (in milliseconds)
+    speedBonusDuration = 5000; // 5000 milliseconds = 5 seconds
+
+    // Remove the collided item from the items array
+    items.splice(index, 1);
+
+    // Play the collision sound
+    playCollisionSound();
+}
+
+// Function to handle collision with the life item
+function handleLifeItemCollision(index) {
+    // Increment the score
+    score++;
+
+    // If player's life is less than 3, recover 1 heart life
+    if (playerLife < 3) {
+        playerLife++;
+        objectsTouchedGround--;
+        updateHeartImages();
+    }
+
+    // Remove the collided item from the items array
+    items.splice(index, 1);
+
+    // Play the collision sound
+    playCollisionSound();
 }

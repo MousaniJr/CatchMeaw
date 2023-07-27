@@ -1,5 +1,7 @@
+//update the variables.js file with the code:
 // Define the variables
-let debug = 0;
+let debug = 1;
+
 let items = []; //falling items (rats)
 let score = 0;
 let highScore = 0;
@@ -30,3 +32,5 @@ let playerLife = 3;
 
 // New variable to track player's jump state
 let isJumping = false;
+
+let isGameRunning = false;

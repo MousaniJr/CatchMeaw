@@ -1,3 +1,4 @@
+//update the input.js file with the code:
 // Keydown and Keyup event handlers for player movement
 document.addEventListener('keydown', keyDownHandler);
 document.addEventListener('keyup', keyUpHandler);
