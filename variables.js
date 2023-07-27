@@ -1,6 +1,6 @@
 //update the variables.js file with the code:
 // Define the variables
-let debug = 1;
+let debug = 0;
 
 let items = []; //falling items (rats)
 let score = 0;
