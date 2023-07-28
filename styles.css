@@ -1,0 +1,108 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Prevents scrollbars */
+    background-color: #222; /* Set the background color of the page */
+    height: 100%;
+}
+
+#gameContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 800px; /* Set the width of the game container to 800 pixels */
+    height: 600px; /* Set the height of the game container to 600 pixels */
+    background-image: url('media/background.jpeg'); /* Replace with the actual image path */
+    background-size: cover; /* Adjust how the background image is sized */
+}
+
+canvas {
+    display: block;
+    margin: auto;
+    //border: 5px solid black; /* Add a 5px black border around the canvas */
+    background-color: white; /* Set the background color of the canvas */
+    background-image: url('media/background.jpeg'); /* Replace with the actual image path */
+    background-size: cover; /* Adjust how the background image is sized */
+    width: 100%; /* Make the canvas fill the entire width of the viewport */
+    height: 100%; /* Make the canvas fill the entire height of the viewport */
+    box-sizing: border-box; /* Include the border in the element's total width and height */
+}
+
+/* Main menu styles... */
+#mainMenuContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; /* Make the main menu container fill the entire width of the viewport */
+    height: 100%; /* Make the main menu container fill the entire height of the viewport */
+    z-index: 1;
+    font-family: Arial, sans-serif;
+    color: white;
+    background-image: url('media/splash.jpeg'); /* Replace with the actual path to the background image */
+    background-size: cover; /* Adjust how the background image is sized */
+}
+
+#mainMenuContainer h1 {
+    font-size: 32px;
+    margin-bottom: 550px;
+}
+
+#startButton {
+    padding: 10px 20px;
+    font-size: 32px;
+    background-color: red;
+    border: none;
+    color: white;
+    cursor: pointer;
+    width: 140px;
+    height: 70px;
+    border-radius: 10px;
+}
+
+/* Style for the music toggle image */
+#musicToggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+}
+
+#heartsContainer {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 10px;
+    left: calc(50% - 150px); /* To center the container */
+}
+
+#restartButton {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: red;
+    border: none;
+    color: black;
+    cursor: pointer;
+    /* Add the height property to increase the height of the button */
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+}
+/* Add this new style for the speed bonus time */
+.speed-bonus-time {
+  color: white;
+  font-size: 18px;
+  text-align: center;
+  position: absolute;
+  bottom: -60px; /* Adjust the vertical position as needed */
+  left: 0;
+  right: 0;
+}
