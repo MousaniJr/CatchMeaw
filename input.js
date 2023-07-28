@@ -86,3 +86,36 @@ gameCanvas.addEventListener('touchend', function(event) {
     leftPressed = false;
     rightPressed = false;
 });
+
+// Variable to track whether the jump button is currently pressed
+let isJumpButtonPressed = false;
+
+// Touch event handling for the jump button
+const jumpButton = document.getElementById('jumpButton');
+jumpButton.addEventListener('touchstart', function (event) {
+  // Prevent default touch behavior (e.g., scrolling)
+  event.preventDefault();
+
+  // Set the jump button as pressed
+  isJumpButtonPressed = true;
+
+  // Change the jump button image to btnJumpON.png
+  jumpButton.src = 'media/btnJumpON.png';
+
+  // Perform the jump action when the button is pressed
+  if (!isJumping) {
+    isJumping = true;
+    playerJump();
+  }
+});
+
+jumpButton.addEventListener('touchend', function (event) {
+  // Prevent default touch behavior (e.g., scrolling)
+  event.preventDefault();
+
+  // Set the jump button as not pressed
+  isJumpButtonPressed = false;
+
+  // Change the jump button image back to btnJumpOFF.png
+  jumpButton.src = 'media/btnJumpOFF.png';
+});

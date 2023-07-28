@@ -95,3 +95,21 @@ document.addEventListener('visibilitychange', function() {
         pauseGame();
     }
 });
+
+// Check if the user is using a mobile device
+function isMobileDevice() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+// Function to show the jump button on mobile devices
+function showJumpButton() {
+  const jumpButton = document.getElementById('jumpButton');
+  if (isMobileDevice()) {
+    jumpButton.style.display = 'block';
+  } else {
+    jumpButton.style.display = 'none';
+  }
+}
+
+// Call the function to show the jump button on page load
+showJumpButton();
