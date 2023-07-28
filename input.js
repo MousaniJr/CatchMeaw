@@ -32,9 +32,10 @@ function keyUpHandler(event) {
     }
 }
 
+
 // Touch event handling
-//const gameCanvas = document.getElementById('gameCanvas');
 let touchStartX = 0;
+let touchMovedX = 0;
 
 gameCanvas.addEventListener('touchstart', function(event) {
     // Prevent default touch behavior (e.g., scrolling)
@@ -42,10 +43,31 @@ gameCanvas.addEventListener('touchstart', function(event) {
 
     // Get the X-coordinate of the touch
     touchStartX = event.touches[0].clientX;
+    touchMovedX = touchStartX;
 
     // Determine if touch is on the left or right side of the screen
     const halfScreenWidth = gameCanvas.width / 2;
     if (touchStartX < halfScreenWidth) {
+        leftPressed = true;
+        rightPressed = false;
+        playerImage.src = 'media/player-left.png'; // Replace with the actual path to the left player image
+    } else {
+        rightPressed = true;
+        leftPressed = false;
+        playerImage.src = 'media/player-right.png'; // Replace with the actual path to the right player image
+    }
+});
+
+gameCanvas.addEventListener('touchmove', function(event) {
+    // Prevent default touch behavior (e.g., scrolling)
+    event.preventDefault();
+
+    // Update touchMovedX with the current X-coordinate of the touch
+    touchMovedX = event.touches[0].clientX;
+
+    // Determine the horizontal movement direction of the finger
+    const movementX = touchMovedX - touchStartX;
+    if (movementX < 0) {
         leftPressed = true;
         rightPressed = false;
         playerImage.src = 'media/player-left.png'; // Replace with the actual path to the left player image
