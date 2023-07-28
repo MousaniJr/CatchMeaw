@@ -25,6 +25,7 @@ function showGameOver() {
     restartButton.style.position = 'absolute';
     restartButton.style.left = canvas.offsetLeft + canvas.width / 2 - restartButton.clientWidth / 2 + 'px';
     restartButton.style.top = canvas.offsetTop + canvas.height / 2 + 50 + 'px';
+
 }
 
 // Function to reset the game

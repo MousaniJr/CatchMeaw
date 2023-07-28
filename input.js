@@ -31,3 +31,36 @@ function keyUpHandler(event) {
         leftPressed = false;
     }
 }
+
+// Touch event handling
+//const gameCanvas = document.getElementById('gameCanvas');
+let touchStartX = 0;
+
+gameCanvas.addEventListener('touchstart', function(event) {
+    // Prevent default touch behavior (e.g., scrolling)
+    event.preventDefault();
+
+    // Get the X-coordinate of the touch
+    touchStartX = event.touches[0].clientX;
+
+    // Determine if touch is on the left or right side of the screen
+    const halfScreenWidth = gameCanvas.width / 2;
+    if (touchStartX < halfScreenWidth) {
+        leftPressed = true;
+        rightPressed = false;
+        playerImage.src = 'media/player-left.png'; // Replace with the actual path to the left player image
+    } else {
+        rightPressed = true;
+        leftPressed = false;
+        playerImage.src = 'media/player-right.png'; // Replace with the actual path to the right player image
+    }
+});
+
+gameCanvas.addEventListener('touchend', function(event) {
+    // Prevent default touch behavior (e.g., scrolling)
+    event.preventDefault();
+
+    // Reset movement flags when touch ends
+    leftPressed = false;
+    rightPressed = false;
+});

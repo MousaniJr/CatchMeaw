@@ -41,6 +41,12 @@ function checkCollisions() {
             }
         }
 
+        // Check and update high score if needed
+        if (score > highScore) {
+            highScore = score;
+            localStorage.setItem('highScore', highScore); // Store the high score in local storage
+        }
+
         // Check for collision when RATS touches the ground (excluding ratLife)
         if (item.y + item.height / 2 >= canvas.height && item.image !== 'media/ratLife.png') {
             objectsTouchedGround++;

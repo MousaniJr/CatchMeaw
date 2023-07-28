@@ -251,3 +251,14 @@ function playerJump() {
     // Start the jump animation
     animateJump();
 }
+
+// Function to handle player movement
+function movePlayer() {
+    if (leftPressed && player.x > 0) {
+        player.x -= player.speed;
+    }
+
+    if (rightPressed && player.x < canvas.width - player.width) {
+        player.x += player.speed;
+    }
+}
