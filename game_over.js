@@ -23,8 +23,8 @@ function showGameOver() {
     const restartButton = document.getElementById('restartButton');
     restartButton.style.display = 'block';
     restartButton.style.position = 'absolute';
-    restartButton.style.left = canvas.offsetLeft + canvas.width / 2 - restartButton.clientWidth / 2 + 'px';
-    restartButton.style.top = canvas.offsetTop + canvas.height / 2 + 50 + 'px';
+    restartButton.style.left = 43% 'px';
+    restartButton.style.top = 60% + 'px';
 
 }
 

@@ -48,7 +48,7 @@ function checkCollisions() {
         }
 
         // Check for collision when RATS touches the ground (excluding ratLife)
-        if (item.y + item.height / 2 >= canvas.height && item.image !== 'media/ratLife.png') {
+        if (item.y + item.height / 2 >= canvas.height && item.image !== 'media/ratLife.png' && item.image !== 'media/ratBonus.png') {
             objectsTouchedGround++;
             playGroundCollision();
             playerLife--;

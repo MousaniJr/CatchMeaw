@@ -1,7 +1,7 @@
 //update the update_game.js with the code:
 // Define a variable to store the player's original position
 let originalPlayerX = canvas.width / 2;
-let originalPlayerY = canvas.height - 50;
+let originalPlayerY = canvas.height * 0.925;
 
 // Define a variable to store the player's original speed
 const originalPlayerSpeed = player.speed;
@@ -35,8 +35,6 @@ function updateGame(timestamp) {
     // Check if the game is over
     if (objectsTouchedGround >= maxObjectsTouchedGround) {
         gameOver = true;
-        const restartButton = document.getElementById('restartButton');
-        restartButton.style.display = 'block'; // Show the restart button
         showGameOver();
         return; // Pause the game
     }
@@ -134,10 +132,10 @@ function updateGame(timestamp) {
     ctx.shadowOffsetX = 2; // Set the horizontal shadow offset
     ctx.shadowOffsetY = 2; // Set the vertical shadow offset
 
-    ctx.fillText('Score: ' + score, 10, 30);
+    ctx.fillText('Score: ' + score, 10, 62);
 
     // Draw the High score with a shadow
-    ctx.fillText('High Score: ' + highScore, 10, 62);
+    ctx.fillText('High Score: ' + highScore, 10, 30);
 
     // Draw heart images
     const heartsContainer = document.getElementById('heartsContainer');

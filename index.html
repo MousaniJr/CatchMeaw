@@ -1,73 +1,75 @@
-<!-- Update the file index.html with the code:    -->
+<!-- Update the file index.html with the code:  -->
+<!DOCTYPE html>
 <html>
-<head>
-    <title>CathMeaw</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
+    <head>
+        <title>CathMeaw</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
     <body>
 
-        <div id="gameContainer">
+    <div id="gameContainer">
 
-            <canvas id="gameCanvas" width="800" height="600"></canvas>
-<!--            <canvas id="gameCanvas"></canvas>-->
+        <canvas id="gameCanvas" width="800" height="600"></canvas>
+        <!-- <canvas id="gameCanvas"></canvas> -->
 
-            <!-- Audio element for background music -->
-            <audio id="backgroundMusic" loop>
-                <!-- MP3 format (primary source) -->
-                <source src="media/bkgmusic.mp3" type="audio/mpeg">
-            </audio>
+        <!-- Audio element for background music -->
+        <audio id="backgroundMusic" loop>
+            <!-- MP3 format (primary source) -->
+            <source src="media/bkgmusic.mp3" type="audio/mpeg">
+        </audio>
 
-            <!-- Audio element to play collision sound -->
-            <audio id="collisionSound">
-                <!-- MP3 format (fallback source) -->
-                <source src="media/Eat.mp3" type="audio/mpeg">
-            </audio>
+        <!-- Audio element to play collision sound -->
+        <audio id="collisionSound">
+            <!-- MP3 format (fallback source) -->
+            <source src="media/Eat.mp3" type="audio/mpeg">
+        </audio>
 
-                    <!-- Audio element to play ground collision sound -->
-            <audio id="groundCollision">
-                <!-- MP3 format (fallback source) -->
-                <source src="media/meaw.mp3" type="audio/mpeg">
-            </audio>
+        <!-- Audio element to play ground collision sound -->
+        <audio id="groundCollision">
+            <!-- MP3 format (fallback source) -->
+            <source src="media/meaw.mp3" type="audio/mpeg">
+        </audio>
 
-            <!-- Button to restart the game -->
-            <button id="restartButton" style="display: none;">Restart</button>
+        <!-- Button to restart the game -->
+        <button id="restartButton" style="display: none;">Restart</button>
 
-            <!-- Main menu container -->
-            <div id="mainMenuContainer">
+        <!-- Main menu container -->
+        <div id="mainMenuContainer">
 
-                <h1>Welcome to CathMeaw</h1>
-                <button id="startButton" style="position: absolute; top: 85%; left: 40%;">Start</button>
-                <img src="media/instructions.png" alt="Additional Image" style="width: 400px; height: 400px; position: absolute; top: 50% + 100; left: 50%/2;">
-                <img src="media/ratBonus_0.png" alt="Rat Bonus 0" style="width: 70px; height: 70px; position: absolute; top: 25%; left: 050;">
-                <img src="media/ratLife_0.png" alt="Rat Bonus 0" style="width: 80px; height: 80px; position: absolute; top: 45%; left: 045;">
-
-            </div>
-
-            <!-- Image to toggle background music -->
-            <img id="musicToggle" src="media/musicON.png" alt="Music ON">
-
-            <!-- Jump button for mobile users -->
-            <img id="jumpButton" src="media/btnJumpOFF.png" alt="Jump Button" style="position: absolute; bottom: -10px; right: -10px; display: none; width: 90px; height: 90px;">
-
-            <div id="heartsContainer">
-                <!-- Full hearts -->
-                <img src="media/fullheart.png" id="heart1" class="full-heart" width="35" height="35">
-                <img src="media/fullheart.png" id="heart2" class="full-heart" width="35" height="35">
-                <img src="media/fullheart.png" id="heart3" class="full-heart" width="35" height="35">
-                <p id="speedBonusTime" class="speed-bonus-time"></p> <!-- Speed Bonus CountDown -->
-            </div>
+            <h1 style="font-size: 4vw;">Welcome to CathMeaw</h1>
+            <button id="startButton" style="position: absolute; top: 85%; left: 40%; font-size: 3vw;">Start</button>
+            <img src="media/instructions.png" alt="Additional Image" style="width: 50%; height: 60%; position: absolute; top: 15%; left: 25%;">
+            <img src="media/ratBonus_0.png" alt="Rat Bonus 0" style="width: 10%; height: 12%; position: absolute; top: 25%; left: 5%;">
+            <img src="media/ratLife_0.png" alt="Rat Bonus 0" style="width: 10%; height: 12%; position: absolute; top: 45%; left: 4.5%;">
 
         </div>
 
-        <!-- Scripts for the game -->
-        <script src="variables.js"></script>
-        <script src="game.js"></script>
-        <script src="input.js"></script>
-        <script src="falling_items.js"></script>
-        <script src="collision.js"></script>
-        <script src="game_over.js"></script>
-        <script src="update_game.js"></script>
-        <script src="main_menu.js"></script>
+        <!-- Image to toggle background music -->
+        <img id="musicToggle" src="media/musicON.png" alt="Music ON" style="position: absolute; top: 0%; right: 0%; width: 7%; height: 8%;">
+
+        <!-- Jump button for mobile users -->
+        <img id="jumpButton" src="media/btnJumpOFF.png" alt="Jump Button" style="position: absolute; bottom: -0.5%; right: -0.5%; display: none; width: 10%; height: 10%;">
+
+        <!-- Hearts -->
+        <div id="heartsContainer" style="position: absolute; top: 1%; left: 30%; transform: translateX(-30%);">
+            <img src="media/fullheart.png" id="heart1" class="full-heart" style="width: 8%; height: 8%;">
+            <img src="media/fullheart.png" id="heart2" class="full-heart" style="width: 8%; height: 8%;">
+            <img src="media/fullheart.png" id="heart3" class="full-heart" style="width: 8%; height: 8%;">
+            <p id="speedBonusTime" class="speed-bonus-time" style="font-size: 1.5vw;"></p> <!-- Speed Bonus CountDown -->
+        </div>
+
+    </div>
+
+    <!-- Scripts for the game -->
+
+    <script src="variables.js"></script>
+    <script src="game.js"></script>
+    <script src="input.js"></script>
+    <script src="falling_items.js"></script>
+    <script src="collision.js"></script>
+    <script src="game_over.js"></script>
+    <script src="update_game.js"></script>
+    <script src="main_menu.js"></script>
 
     </body>
 </html>
