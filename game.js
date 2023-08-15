@@ -19,7 +19,7 @@ let player = {
     y: canvas.height - (canvas.height * 0.08), // Placed at the bottom of the canvas
     width: canvas.width * 0.08, // 8% of canvas width
     height: canvas.height * 0.08, // 8% of canvas height
-    speed: 0.005 * canvas.width // 0.5% of canvas width
+    speed: original_speed * canvas.width // 0.5% of canvas width
 };
 
 let playerImage = new Image();

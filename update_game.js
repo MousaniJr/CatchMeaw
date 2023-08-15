@@ -1,4 +1,5 @@
 //update the update_game.js with the code:
+
 // Define a variable to store the player's original position
 let originalPlayerX = canvas.width / 2;
 let originalPlayerY = canvas.height * 0.925;
@@ -91,9 +92,6 @@ function updateGame(timestamp) {
         const itemImage = new Image();
         itemImage.src = items[i].image; // Use the correct image path
 
-        //ctx.drawImage(itemImage, items[i].x, items[i].y, items[i].width, items[i].height);
-
-
         // Save the current canvas state
         ctx.save();
 
@@ -110,7 +108,7 @@ function updateGame(timestamp) {
         ctx.restore();
 
 
-        //++++++++debug+++++++++
+        //++++++++debug DRAW ITEM SPEED +++++++++
         if (debug == 1)
         {
             ctx.strokeStyle = 'black'; // Set the color of the outline
@@ -144,7 +142,7 @@ function updateGame(timestamp) {
     heartsContainer.style.left = `${(canvas.width - 80) / 2}px`;
 
 
-    //++++++++debug+++++++++
+    //++++++++debug DRAW PLAYER SPEED +++++++++
     if (debug == 1)
     {
         ctx.strokeStyle = 'black'; // Set the color of the outline
@@ -154,7 +152,7 @@ function updateGame(timestamp) {
         ctx.strokeText('Player SPD: ' + player.speed, 660, 590);
         ctx.fillText('Player SPD: ' + player.speed, 660, 590);
     }
-    //++++++++debug+++++++++
+    //++++++++debug DRAW OBJECTS TOUCHED THE GROUND +++++++++
     if (debug == 1)
     {
         ctx.strokeStyle = 'black'; // Set the color of the outline

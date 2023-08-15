@@ -58,6 +58,13 @@ canvas {
     left: 25%;
 }
 
+#mainMenuContainer version {
+    font-size: 2vw; /* Use vw unit for responsive font size */
+    position: absolute;
+    top: 95%;
+    left: 85%;
+}
+
 #startButton {
     padding: 1vw 2vw; /* Use vw unit for responsive padding */
     font-size: 3vw; /* Use vw unit for responsive font size */
@@ -98,7 +105,6 @@ canvas {
     width: 12%; /* Use percentage for width to adjust based on viewport width */
     height: 8%; /* Use percentage for height to adjust based on viewport height */
     border-radius: 10px;
-
     /* The restart button is being positioned in the game over function as well */
     position: absolute;
     top: 60%;

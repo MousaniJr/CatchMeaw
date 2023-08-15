@@ -6,6 +6,8 @@ let items = []; //falling items (rats)
 let score = 0;
 let highScore = 0;
 
+let original_speed = 0.005
+
 //collision.js
 const maxObjectsTouchedGround = 3;// Number of objects that can touch the ground before game over
 let objectsTouchedGround = 0;
@@ -34,3 +36,6 @@ let playerLife = 3;
 let isJumping = false;
 
 let isGameRunning = false;
+
+
+

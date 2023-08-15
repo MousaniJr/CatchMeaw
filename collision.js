@@ -14,20 +14,20 @@ function checkCollisions() {
 
     //creating the rect1 around the player
     const playerRect = {
-        x: player.x + player.width * 0.5, // Reduce the width by 50%
-        y: player.y + player.height * 0.5, // Reduce the height by 50%
-        width: player.width * 0.5, // 50% of the original width
-        height: player.height * 0.5 // 50% of the original height
+        x: player.x + player.width * 0.25, // Reduce the width by 50%
+        y: player.y + player.height * 0.25, // Reduce the height by 50%
+        width: player.width * 0.25, // 50% of the original width
+        height: player.height * 0.25 // 50% of the original height
     };
 
 
     for (let i = 0; i < items.length; i++) {
         const item = items[i];
         const itemRect = {
-            x: item.x - 10, // Add a buffer zone of 10 pixels around the item
-            y: item.y - 10,
-            width: item.width + 10,
-            height: item.height + 10
+            x: item.x - 5, // Add a buffer zone of 10 pixels around the item
+            y: item.y - 5,
+            width: item.width + 5,
+            height: item.height + 5
         };
 
         // Check for collision between PLAYER and RATS rectangle
@@ -120,9 +120,6 @@ function handleItemCollision(index) {
     // Increment the score
     score++;
 
-    // Increase the player's speed
-    //player.speed += 0.5; // Adjust the speed bonus as needed
-
     // Remove the collided item from the items array
     items.splice(index, 1);
 
@@ -136,8 +133,8 @@ function handleBonusItemCollision(index) {
     score++;
 
     // Apply the speed bonus to the player
-    if(player.speed == 3) {
-        player.speed += 2; // The player gains a speed bonus of +2
+    if(player.speed == original_speed * canvas.width) {
+        player.speed = player.speed * 1.50; // The player gains a speed bonus of +2
     }
 
     // Set the duration of the speed bonus (in milliseconds)
