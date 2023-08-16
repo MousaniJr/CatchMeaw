@@ -1,21 +1,22 @@
-//update the input.js file with the code:
+// update the input.js file with the code:
 // Keydown and Keyup event handlers for player movement
 document.addEventListener('keydown', keyDownHandler);
 document.addEventListener('keyup', keyUpHandler);
 
 let rightPressed = false;
 let leftPressed = false;
+let isJumpButtonPressed = false;
 
 function keyDownHandler(event) {
-    if (event.keyCode === 39) {
+    if (event.keyCode === 39 || event.key === "d" || event.key === "D") {
         rightPressed = true;
         leftPressed = false;
         playerImage.src = 'media/player-right.png'; // Replace with the actual path to the right player image
-    } else if (event.keyCode === 37) {
+    } else if (event.keyCode === 37 || event.key === "a" || event.key === "A") {
         leftPressed = true;
         rightPressed = false;
         playerImage.src = 'media/player-left.png'; // Replace with the actual path to the left player image
-    } else if (event.code === 'Space') {
+    } else if (event.code === 'Space' || event.key === "w" || event.key === "W") {
         // Check if the player is not already jumping
         if (!isJumping) {
             isJumping = true;
@@ -25,13 +26,12 @@ function keyDownHandler(event) {
 }
 
 function keyUpHandler(event) {
-    if (event.keyCode === 39) {
+    if (event.keyCode === 39 || event.key === "d" || event.key === "D") {
         rightPressed = false;
-    } else if (event.keyCode === 37) {
+    } else if (event.keyCode === 37 || event.key === "a" || event.key === "A") {
         leftPressed = false;
     }
 }
-
 
 // Touch event handling
 let touchStartX = 0;
@@ -86,9 +86,6 @@ gameCanvas.addEventListener('touchend', function(event) {
     leftPressed = false;
     rightPressed = false;
 });
-
-// Variable to track whether the jump button is currently pressed
-let isJumpButtonPressed = false;
 
 // Touch event handling for the jump button
 const jumpButton = document.getElementById('jumpButton');

@@ -1,3 +1,4 @@
+/* Update the styles.css file with the code: */
 body, html {
     margin: 0;
     padding: 0;
@@ -20,7 +21,7 @@ body, html {
 canvas {
     display: block;
     margin: auto;
-    //border: 5px solid black; /* Add a 5px black border around the canvas */
+    /* border: 5px solid black; Add a 5px black border around the canvas */
     width: 100%; /* Make the canvas fill the entire width of the game container */
     height: 100%; /* Make the canvas fill the entire height of the game container */
     box-sizing: border-box; /* Include the border in the element's total width and height */
@@ -51,15 +52,14 @@ canvas {
     background-position: center center;
 }
 
-#mainMenuContainer h1 {
-    font-size: 4vw; /* Use vw unit for responsive font size */
+#mainMenuContainer .h1 {
     position: absolute;
     top: 00%;
     left: 25%;
 }
 
-#mainMenuContainer version {
-    font-size: 2vw; /* Use vw unit for responsive font size */
+/* Style the game version */
+#mainMenuContainer .version {
     position: absolute;
     top: 95%;
     left: 85%;

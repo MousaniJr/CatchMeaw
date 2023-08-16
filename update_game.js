@@ -1,4 +1,4 @@
-//update the update_game.js with the code:
+// update the update_game.js with the code:
 
 // Define a variable to store the player's original position
 let originalPlayerX = canvas.width / 2;
@@ -9,6 +9,18 @@ const originalPlayerSpeed = player.speed;
 
 // Variable to track the remaining duration of the speed bonus in milliseconds
 let speedBonusDuration = 0;
+
+// Variable to store the vertical position where the pause should occur
+const pausePosition = canvas.height * 0.2;
+
+// Variable to track the timestamp when ratBonus appears for the first time
+let firstRatBonus = true;
+let firstRatBonusTimestamp = 0;
+let ratBonusInPosition = false;
+// Variable to track the timestamp when ratLife appears for the first time
+let firstRatLife = true;
+let firstRatLifeTimestamp = 0;
+let ratLifeInPosition = false;
 
 // Update and draw the game
 function updateGame(timestamp) {
@@ -26,6 +38,19 @@ function updateGame(timestamp) {
 
     lastTimestamp = timestamp; // Update lastTimestamp after the delay (if any)
     frameCount++;
+
+    // If the game is paused, check if the 3 seconds have passed
+    if (firstRatBonusTimestamp != 0 && isGamePaused && timestamp - firstRatBonusTimestamp >= 3000) {
+        isGamePaused = false; // Resume the game after 3 seconds
+        // Reset the firstRatBonusTimestamp to avoid pausing again
+        firstRatBonusTimestamp = 0;
+    }
+    // If the game is paused, check if the 3 seconds have passed for ratLife
+    if (firstRatLifeTimestamp != 0 && isGamePaused && timestamp - firstRatLifeTimestamp >= 3000) {
+        isGamePaused = false; // Resume the game after 3 seconds
+        // Reset the firstRatLifeTimestamp to avoid pausing again
+        firstRatLifeTimestamp = 0;
+    }
 
     // If the game is paused, don't update or render the game
     if (isGamePaused) {
@@ -107,6 +132,34 @@ function updateGame(timestamp) {
         // Restore the canvas state
         ctx.restore();
 
+        // Check if ratBonus is around 20% of the vertical game and it's the first time
+        if (
+            firstRatBonus &&
+            items[i].image === 'media/ratBonus.png' &&
+            items[i].y >= pausePosition - items[i].height / 2 &&
+            items[i].y <= pausePosition + items[i].height / 2
+        ) {
+            ratBonusInPosition = true;
+            // Store the timestamp of the first appearance of ratBonus
+            firstRatBonusTimestamp = timestamp;
+            isGamePaused = true; // Pause the game
+            firstRatBonus = false; // Set to false to prevent further pausing
+        }
+        // Check if ratLife is around 20% of the vertical game and it's the first time
+        if (
+            firstRatLife &&
+            items[i].image === 'media/ratLife.png' &&
+            items[i].y >= pausePosition - items[i].height / 2 &&
+            items[i].y <= pausePosition + items[i].height / 2
+        ) {
+            ratLifeInPosition = true;
+            // Store the timestamp of the first appearance of ratLife
+            firstRatLifeTimestamp = timestamp;
+            isGamePaused = true; // Pause the game
+            firstRatLife = false; // Set to false to prevent further pausing
+        }
+
+
 
         //++++++++debug DRAW ITEM SPEED +++++++++
         if (debug == 1)
@@ -116,9 +169,52 @@ function updateGame(timestamp) {
             ctx.fillStyle = 'red';
             ctx.font = '20px Arial';
             //ctx.fillText('I.Speed: ' + items[i].speed.toFixed(2), items[i].x, items[i].y - 10);
-            ctx.strokeText('Item SPD: ' + items[i].speed, 677, 565);
-            ctx.fillText('Item SPD: ' + items[i].speed, 677, 565);
+            ctx.strokeText('Item SPD: ' + items[i].speed, 5, 565);
+            ctx.fillText('Item SPD: ' + items[i].speed, 5, 565);
         }
+
+        if (ratBonusInPosition) {
+            ctx.strokeStyle = 'yellow';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(
+                items[i].x + items[i].width / 2,
+                items[i].y + items[i].height / 2,
+                items[i].width / 2 + 10,
+                0,
+                2 * Math.PI
+            );
+            ctx.stroke();
+
+            // Draw text under rat bonus
+            ctx.fillStyle = 'yellow';
+            ctx.font = 'bold 20px Arial';
+            //ctx.textAlign = 'center';
+            ctx.fillText('Speed Bonus', items[i].x + items[i].width / 2 - 60, items[i].y + items[i].height + 30);
+
+            ratBonusInPosition = false;
+        }
+        if (ratLifeInPosition) {
+            ctx.strokeStyle = 'red';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(
+                items[i].x + items[i].width / 2,
+                items[i].y + items[i].height / 2,
+                items[i].width / 2 + 10,
+                0,
+                2 * Math.PI
+            );
+            ctx.stroke();
+
+            // Draw text under rat life
+            ctx.fillStyle = 'red';
+            ctx.font = 'bold 20px Arial';
+            ctx.fillText('Extra Life', items[i].x + items[i].width / 2 - 50, items[i].y + items[i].height + 30);
+
+            ratLifeInPosition = false;
+        }
+
     }
 
     // Draw the Score with a shadow
@@ -142,26 +238,33 @@ function updateGame(timestamp) {
     heartsContainer.style.left = `${(canvas.width - 80) / 2}px`;
 
 
-    //++++++++debug DRAW PLAYER SPEED +++++++++
     if (debug == 1)
     {
+        //++++++++debug DRAW PLAYER SPEED +++++++++
         ctx.strokeStyle = 'black'; // Set the color of the outline
         ctx.lineWidth = 3; // Set the width of the outline
         ctx.fillStyle = 'white';
         ctx.font = '20px Arial';
-        ctx.strokeText('Player SPD: ' + player.speed, 660, 590);
-        ctx.fillText('Player SPD: ' + player.speed, 660, 590);
-    }
-    //++++++++debug DRAW OBJECTS TOUCHED THE GROUND +++++++++
-    if (debug == 1)
-    {
+        ctx.strokeText('Player SPD: ' + player.speed, 5, 590);
+        ctx.fillText('Player SPD: ' + player.speed, 5, 590);
+
+        //++++++++debug DRAW OBJECTS TOUCHED THE GROUND +++++++++
         ctx.strokeStyle = 'black'; // Set the color of the outline
         ctx.lineWidth = 3; // Set the width of the outline
         ctx.fillStyle = 'yellow';
         ctx.font = '20px Arial';
-        ctx.strokeText('Touched Grd: ' + objectsTouchedGround, 650, 540);
-        ctx.fillText('Touched Grd: ' + objectsTouchedGround, 650, 540);
+        ctx.strokeText('Touched Grd: ' + objectsTouchedGround, 5, 540);
+        ctx.fillText('Touched Grd: ' + objectsTouchedGround, 5, 540);
+
+        //++++++++debug EXTRA VARIABLE +++++++++
+        ctx.strokeStyle = 'black'; // Set the color of the outline
+        ctx.lineWidth = 3; // Set the width of the outline
+        ctx.fillStyle = 'blue';
+        ctx.font = '20px Arial';
+        ctx.strokeText('Extra: ' + performance.now()/1000, 5, 490);
+        ctx.fillText('Extra: ' + performance.now()/1000, 5, 490);
     }
+
 
    // Display the FPS
     displayFPS();
@@ -187,8 +290,8 @@ function displayFPS() {
         ctx.lineWidth = 3; // Set the width of the outline
         ctx.fillStyle = 'green';
         ctx.font = '20px Arial';
-        ctx.strokeText('FPS: ' + currentFPS, 705, 515);
-        ctx.fillText('FPS: ' + currentFPS, 705, 515); // Position it below the High Score text
+        ctx.strokeText('FPS: ' + currentFPS, 5, 515);
+        ctx.fillText('FPS: ' + currentFPS, 5, 515); // Position it below the High Score text
     }
 }
 

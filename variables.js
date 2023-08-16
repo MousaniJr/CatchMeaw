@@ -32,7 +32,7 @@ let gameStarted = false;
 let playerLife = 3;
 //gameOver = false;
 
-// New variable to track player's jump state
+// Variable to track player's jump state
 let isJumping = false;
 
 let isGameRunning = false;
