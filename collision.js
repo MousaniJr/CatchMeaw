@@ -14,21 +14,37 @@ function checkCollisions() {
 
     //creating the rect1 around the player
     const playerRect = {
-        x: player.x + player.width * 0.25, // Reduce the width by 50%
+        x: player.x + player.width * 0.30, // Reduce the width by 50%
         y: player.y + player.height * 0.25, // Reduce the height by 50%
-        width: player.width * 0.25, // 50% of the original width
-        height: player.height * 0.25 // 50% of the original height
+        width: player.width * 0.45, // 50% of the original width
+        height: player.height * 0.50 // 50% of the original height
     };
+
+    if (debug == 1)
+    {
+        // Clear the canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Draw rect1 around the player
+        ctx.fillStyle = 'white';
+        ctx.fillRect(playerRect.x, playerRect.y, playerRect.width, playerRect.height);
+    }
 
 
     for (let i = 0; i < items.length; i++) {
         const item = items[i];
         const itemRect = {
-            x: item.x - 5, // Add a buffer zone of 10 pixels around the item
+            x: item.x + 5, // Add a buffer zone of 10 pixels around the item
             y: item.y - 5,
-            width: item.width + 5,
+            width: item.width - 5,
             height: item.height + 5
         };
+
+         // Draw a rectangle around the falling item
+        if (debug == 1) {
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(itemRect.x, itemRect.y, itemRect.width, itemRect.height);
+        }
 
         // Check for collision between PLAYER and RATS rectangle
         if (areRectanglesColliding(playerRect, itemRect)) {
@@ -135,6 +151,7 @@ function handleBonusItemCollision(index) {
     // Apply the speed bonus to the player
     if(player.speed == original_speed * canvas.width) {
         player.speed = player.speed * 1.50; // The player gains a speed bonus of +2
+        imageChangeSpeed = 50; // player image change faster due the speed up
     }
 
     // Set the duration of the speed bonus (in milliseconds)

@@ -14,16 +14,20 @@ if (isMobile) {
     document.body.style.overflow = 'hidden';
 }
 // Define game variables and objects
+const playerWidth = canvas.width * 0.18; // 18% of canvas width
+const playerHeight = canvas.height * 0.18; // 18% of canvas height
+const playerSpeed = original_speed * canvas.width; // 0.5% of canvas width
+
 let player = {
-    x: canvas.width * 0.5, // 50% of canvas width
-    y: canvas.height - (canvas.height * 0.08), // Placed at the bottom of the canvas
-    width: canvas.width * 0.08, // 8% of canvas width
-    height: canvas.height * 0.08, // 8% of canvas height
-    speed: original_speed * canvas.width // 0.5% of canvas width
+    width: playerWidth,
+    height: playerHeight,
+    speed: playerSpeed,
+    x: canvas.width * 0.5 - playerWidth / 2, // Centered horizontally
+    y: canvas.height - playerHeight + 18, // Adjust this value to position the player on the ground
 };
 
 let playerImage = new Image();
-playerImage.src = 'media/player-right.png'; // Replace with the actual path to the right player image
+playerImage.src = 'media/player-right00.png'; // Replace with the actual path to the right player image
 
 // Set Borders limit to the player
 const canvasLeftBoundary = 0;
