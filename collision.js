@@ -54,6 +54,8 @@ function checkCollisions() {
                 handleBonusItemCollision(i);
             } else if (item.image === 'media/ratLife.png') {
                 handleLifeItemCollision(i);
+            }else if (item.image === 'media/ratDebuff.png') {
+                handleDebuffItemCollision(i);
             }
         }
 
@@ -64,7 +66,7 @@ function checkCollisions() {
         }
 
         // Check for collision when RATS touches the ground (excluding ratLife)
-        if (item.y + item.height / 2 >= canvas.height && item.image !== 'media/ratLife.png' && item.image !== 'media/ratBonus.png') {
+        if (item.y + item.height / 2 >= canvas.height && item.image !== 'media/ratLife.png' && item.image !== 'media/ratBonus.png' && item.image !== 'media/ratDebuff.png') {
             objectsTouchedGround++;
             playGroundCollision();
             playerLife--;
@@ -105,14 +107,6 @@ function updateHeartImages() {
         default:
             break;
     }
-   // Update the position of the speedBonusTime element under the hearts container
-  const speedBonusTime = document.getElementById('speedBonusTime');
-  if (speedBonusDuration > 0) {
-    const remainingTime = Math.ceil(speedBonusDuration / 1000); // Convert milliseconds to seconds
-    speedBonusTime.textContent = `Speed Bonus: ${remainingTime}s`;
-  } else {
-    speedBonusTime.textContent = '';
-  }
 }
 
 // Function to play the collision sound
@@ -145,12 +139,16 @@ function handleItemCollision(index) {
 
 // Function to handle collision with the bonus item
 function handleBonusItemCollision(index) {
+
     // Increment the score
     score++;
 
     // Apply the speed bonus to the player
-    if(player.speed == original_speed * canvas.width) {
+    if( player.speed == original_speed * canvas.width ) {
         player.speed = player.speed * 1.50; // The player gains a speed bonus of +2
+        imageChangeSpeed = 50; // player image change faster due the speed up
+    } else if (debuffed) {
+        player.speed = original_speed * canvas.width * 1.50; // The player gains a speed bonus of +2
         imageChangeSpeed = 50; // player image change faster due the speed up
     }
 
@@ -162,6 +160,34 @@ function handleBonusItemCollision(index) {
 
     // Play the collision sound
     playCollisionSound();
+
+    debuffed = false;
+    buffed = true;
+}
+
+// Function to handle collision with the debuff item
+function handleDebuffItemCollision(index) {
+
+    // Apply the speed Debuff to the player
+    if(player.speed == original_speed * canvas.width) {
+        player.speed = player.speed * 0.50; // The player gains a Debuff speed of half
+        imageChangeSpeed = 150; // player image change low due the Debuff speed
+    } else if (buffed) {
+        player.speed = original_speed * canvas.width * 0.50;
+        imageChangeSpeed = 150; // player image change low due the Debuff speed
+    }
+
+    // Set the duration of the speed bonus (in milliseconds)
+    speedBonusDuration = 5000; // 5000 milliseconds = 5 seconds
+
+    // Remove the collided item from the items array
+    items.splice(index, 1);
+
+    // Play the collision sound
+    playCollisionSound();
+
+    debuffed = true;
+    buffed = false;
 }
 
 // Function to handle collision with the life item

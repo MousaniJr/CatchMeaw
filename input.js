@@ -24,14 +24,14 @@ let rightImageChangeTimer = null; // Timer for right movement image change
 
 
 const playerImagesLeft = [
-    'media/player-left00.gif', // Replace with actual image paths
-    'media/player-left01.gif', // Replace with actual image paths
-    'media/player-left02.gif',  // Replace with actual image paths
-    'media/player-left03.gif',  // Replace with actual image paths
-    'media/player-left04.gif',  // Replace with actual image paths
-    'media/player-left05.gif',  // Replace with actual image paths
-    'media/player-left06.gif',  // Replace with actual image paths
-    'media/player-left07.gif'  // Replace with actual image paths
+    'media/player-left00.png', // Replace with actual image paths
+    'media/player-left01.png', // Replace with actual image paths
+    'media/player-left02.png',  // Replace with actual image paths
+    'media/player-left03.png',  // Replace with actual image paths
+    'media/player-left04.png',  // Replace with actual image paths
+    'media/player-left05.png',  // Replace with actual image paths
+    'media/player-left06.png',  // Replace with actual image paths
+    'media/player-left07.png'  // Replace with actual image paths
 ];
 let currentLeftImageIndex = 0;
 let leftImageChangeTimer = null; // Timer for left movement image change

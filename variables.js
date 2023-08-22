@@ -37,5 +37,8 @@ let isJumping = false;
 
 let isGameRunning = false;
 
+let debuffed = false;
+let buffed = false;
+
 
 

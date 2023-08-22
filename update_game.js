@@ -22,6 +22,10 @@ let ratBonusInPosition = false;
 let firstRatLife = true;
 let firstRatLifeTimestamp = 0;
 let ratLifeInPosition = false;
+// Variable to track the timestamp when ratDebuff appears for the first time
+let firstRatDebuff = true;
+let firstRatDebuffTimestamp = 0;
+let ratDebuffInPosition = false;
 
 // Update and draw the game
 function updateGame(timestamp) {
@@ -52,6 +56,13 @@ function updateGame(timestamp) {
         // Reset the firstRatLifeTimestamp to avoid pausing again
         firstRatLifeTimestamp = 0;
     }
+    // If the game is paused, check if the 3 seconds have passed for ratDebuff
+    if (firstRatDebuffTimestamp != 0 && isGamePaused && timestamp - firstRatDebuffTimestamp >= 3000) {
+        isGamePaused = false; // Resume the game after 3 seconds
+        // Reset the firstRatDebuffTimestamp to avoid pausing again
+        firstRatDebuffTimestamp = 0;
+    }
+
 
     // If the game is paused, don't update or render the game
     if (isGamePaused) {
@@ -92,27 +103,29 @@ function updateGame(timestamp) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
-    // If the player has a speed bonus, update the remaining duration
-    if (speedBonusDuration > 0) {
-        speedBonusDuration -= deltaTime;
-        // If the bonus duration is over, reset the player's speed
-        if (speedBonusDuration <= 0) {
-            player.speed = originalPlayerSpeed; // back to the normal player speed
-            imageChangeSpeed = 100; // back to the normal image speed
-        }
-    }
-
-
     // Draw the player image
     ctx.drawImage(playerImage, player.x, player.y, player.width, player.height);
 
-    // Update the remaining time of the speed bonus in the HTML
+
+    // Update the position of the speedBonusTime element under the hearts container
     const speedBonusTime = document.getElementById('speedBonusTime');
+
     if (speedBonusDuration > 0) {
         const remainingTime = Math.ceil(speedBonusDuration / 1000); // Convert milliseconds to seconds
-        speedBonusTime.textContent = `Speed Bonus: ${remainingTime}s`;
+        speedBonusDuration -= deltaTime;
+        if (debuffed) {
+            speedBonusTime.textContent = `Speed Bonus: ${remainingTime}s`;
+            speedBonusTime.classList.add('debuffed-class');
+        } else if (buffed) {
+            speedBonusTime.textContent = `Speed Bonus: ${remainingTime}s`;
+            speedBonusTime.classList.remove('debuffed-class');
+        }
     } else {
+        debuffed = false;
+        buffed = false;
         speedBonusTime.textContent = '';
+        player.speed = originalPlayerSpeed; // back to the normal player speed
+        imageChangeSpeed = 100; // back to the normal image speed
     }
 
 
@@ -163,7 +176,19 @@ function updateGame(timestamp) {
             isGamePaused = true; // Pause the game
             firstRatLife = false; // Set to false to prevent further pausing
         }
-
+        // Check if ratDebuff is around 20% of the vertical game and it's the first time
+        if (
+            firstRatDebuff &&
+            items[i].image === 'media/ratDebuff.png' &&
+            items[i].y >= pausePosition - items[i].height / 2 &&
+            items[i].y <= pausePosition + items[i].height / 2
+        ) {
+            ratDebuffInPosition = true;
+            // Store the timestamp of the first appearance of ratLife
+            firstRatDebuffTimestamp = timestamp;
+            isGamePaused = true; // Pause the game
+            firstRatDebuff = false; // Set to false to prevent further pausing
+        }
 
 
         //++++++++debug DRAW ITEM SPEED +++++++++
@@ -173,11 +198,10 @@ function updateGame(timestamp) {
             ctx.lineWidth = 3; // Set the width of the outline
             ctx.fillStyle = 'red';
             ctx.font = '20px Arial';
-            //ctx.fillText('I.Speed: ' + items[i].speed.toFixed(2), items[i].x, items[i].y - 10);
             ctx.strokeText('Item SPD: ' + items[i].speed, 5, 565);
             ctx.fillText('Item SPD: ' + items[i].speed, 5, 565);
         }
-
+        
         if (ratBonusInPosition) {
             ctx.strokeStyle = 'yellow';
             ctx.lineWidth = 3;
@@ -195,10 +219,10 @@ function updateGame(timestamp) {
             ctx.fillStyle = 'yellow';
             ctx.font = 'bold 20px Arial';
             //ctx.textAlign = 'center';
-            ctx.fillText('Speed Bonus', items[i].x + items[i].width / 2 - 60, items[i].y + items[i].height + 30);
-
+            ctx.fillText('Speed UP!', items[i].x + items[i].width / 2 - 60, items[i].y + items[i].height + 30);
             ratBonusInPosition = false;
         }
+
         if (ratLifeInPosition) {
             ctx.strokeStyle = 'red';
             ctx.lineWidth = 3;
@@ -216,10 +240,28 @@ function updateGame(timestamp) {
             ctx.fillStyle = 'red';
             ctx.font = 'bold 20px Arial';
             ctx.fillText('Extra Life', items[i].x + items[i].width / 2 - 50, items[i].y + items[i].height + 30);
-
             ratLifeInPosition = false;
         }
 
+        if (ratDebuffInPosition) {
+            ctx.strokeStyle = 'green';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(
+                items[i].x + items[i].width / 2,
+                items[i].y + items[i].height / 2,
+                items[i].width / 2 + 10,
+                0,
+                2 * Math.PI
+            );
+            ctx.stroke();
+
+            // Draw text under rat life
+            ctx.fillStyle = 'green';
+            ctx.font = 'bold 20px Arial';
+            ctx.fillText('Speed DOWN!', items[i].x + items[i].width / 2 - 60, items[i].y + items[i].height + 30);
+            ratDebuffInPosition = false;
+        }
     }
 
     // Draw the Score with a shadow
@@ -266,8 +308,22 @@ function updateGame(timestamp) {
         ctx.lineWidth = 3; // Set the width of the outline
         ctx.fillStyle = 'blue';
         ctx.font = '20px Arial';
-        ctx.strokeText('Extra: ' + player.y, 5, 490);
-        ctx.fillText('Extra: ' + player.y, 5, 490);
+        ctx.strokeText('debuffed: ' + debuffed, 5, 490);
+        ctx.fillText('debuffed: ' + debuffed, 5, 490);
+
+        //++++++++debug EXTRA 2 VARIABLE +++++++++
+        ctx.strokeStyle = 'black'; // Set the color of the outline
+        ctx.lineWidth = 3; // Set the width of the outline
+        ctx.fillStyle = 'blue';
+        ctx.font = '20px Arial';
+        ctx.strokeText('buffed: ' + buffed, 5, 440);
+        ctx.fillText('buffed: ' + buffed, 5, 440);
+
+        // Draw the vertical white line
+        ctx.fillStyle = 'white';
+        const lineWidth = 2; // Adjust the line width as needed
+        const lineX = canvas.width / 2 - lineWidth / 2; // Calculate the x-coordinate for the center of the canvas
+        ctx.fillRect(lineX, 0, lineWidth, canvas.height);
     }
 
 

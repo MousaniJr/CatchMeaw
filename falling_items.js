@@ -19,6 +19,9 @@ function createItem() {
     } else if (randomValue >= 0.15 && randomValue < 0.25) { // 10% chance for ratLife
         item.image = 'media/ratLife.png';
         item.speed = 4; // RatLife falling speed
+    } else if (randomValue >= 0.25 && randomValue < 0.45) { // 10% chance for ratLife
+        item.image = 'media/ratDebuff.png';
+        item.speed = 6; // ratDebuff falling
     }
     items.push(item);
 }

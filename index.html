@@ -33,17 +33,22 @@
         <!-- Button to restart the game -->
         <button id="restartButton" style="display: none;">Restart</button>
 
+
+        <div id="shareContainer" style="display: none;">
+            <p id="shareText">Share Score</p>
+            <button id="shareXButton"></button>
+            <button id="shareInstaButton"></button>
+        </div>
+
         <!-- Main menu container -->
         <div id="mainMenuContainer">
-
-            <h1 class="h1" style="font-size: 4vw;">Welcome to CathMeaw </h1>
-            <version class="version" style="font-size: 2vw;"> Alpha ver.2.0</version>
-
+            <gametitle class="gametitle" >Welcome to CathMeaw </gametitle>
+            <version class="version"> Donations: ETH: 0x528A0cF947F917D6c9E136b1E70f7eb732ae8511 - BTC: bc1q0xc9ezzcm42jd6fmvqwthe8494klpzjneamrtr - Game Version: Alpha ver.2.2</version>
             <button id="startButton" style="position: absolute; top: 85%; left: 40%; font-size: 3vw;">Start</button>
             <img src="media/instructions.png" alt="Additional Image" style="width: 50%; height: 60%; position: absolute; top: 15%; left: 25%;">
-            <img src="media/ratBonus_0.png" alt="Rat Bonus 0" style="width: 10%; height: 12%; position: absolute; top: 25%; left: 5%;">
-            <img src="media/ratLife_0.png" alt="Rat Bonus 0" style="width: 10%; height: 12%; position: absolute; top: 45%; left: 4.5%;">
-
+            <img src="media/ratBonus_0.png" alt="Rat Bonus 0" style="width: 10%; height: 12%; position: absolute; top: 20%; left: 5%;">
+            <img src="media/ratLife_0.png" alt="Rat Bonus 0" style="width: 10%; height: 12%; position: absolute; top: 40%; left: 4.5%;">
+            <img src="media/ratDebuff_0.png" alt="Rat Bonus 0" style="width: 10%; height: 12%; position: absolute; top: 60%; left: 4.5%;">
         </div>
 
         <!-- Image to toggle background music -->
@@ -53,11 +58,11 @@
         <img id="jumpButton" src="media/btnJumpOFF.png" alt="Jump Button" style="position: absolute; bottom: -0.5%; right: -0.5%; display: none; width: 10%; height: 10%;">
 
         <!-- Hearts -->
-        <div id="heartsContainer" style="position: absolute; top: 1%; left: 30%; transform: translateX(-30%);">
+        <div id="heartsContainer">
             <img src="media/fullheart.png" id="heart1" class="full-heart" style="width: 8%; height: 8%;">
             <img src="media/fullheart.png" id="heart2" class="full-heart" style="width: 8%; height: 8%;">
             <img src="media/fullheart.png" id="heart3" class="full-heart" style="width: 8%; height: 8%;">
-            <p id="speedBonusTime" class="speed-bonus-time" style="font-size: 1.5vw;"></p> <!-- Speed Bonus CountDown -->
+            <p id="speedBonusTime" class="speed-bonus-time" ></p> <!-- Speed Bonus CountDown -->
         </div>
 
     </div>
