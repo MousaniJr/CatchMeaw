@@ -12,6 +12,18 @@ let original_speed = 0.005
 const maxObjectsTouchedGround = 3;// Number of objects that can touch the ground before game over
 let objectsTouchedGround = 0;
 
+// Combo system variables
+let combo = 0;
+let maxCombo = 0;
+let comboMultiplier = 1;
+let totalCatches = 0;
+
+// Score popup system
+let scorePopups = [];
+
+// Particle system
+let particles = [];
+
 //update_game.js
 const maxFPS = 60; //set max fps
 const frameTime = 1000 / maxFPS; //set max fps
