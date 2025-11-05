@@ -90,14 +90,14 @@ function updateHeartImages() {
             heart3.src = 'media/fullheart.png';
             break;
         case 2:
-            heart1.src = 'media/emptyheart.png';
+            heart1.src = 'media/fullheart.png';
             heart2.src = 'media/fullheart.png';
-            heart3.src = 'media/fullheart.png';
+            heart3.src = 'media/emptyheart.png';
             break;
         case 1:
-            heart1.src = 'media/emptyheart.png';
+            heart1.src = 'media/fullheart.png';
             heart2.src = 'media/emptyheart.png';
-            heart3.src = 'media/fullheart.png';
+            heart3.src = 'media/emptyheart.png';
             break;
         case 0:
             heart1.src = 'media/emptyheart.png';
