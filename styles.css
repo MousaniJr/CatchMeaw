@@ -94,6 +94,13 @@ canvas {
     width: 18%; /* Use percentage for width to adjust based on viewport width */
     height: 10%; /* Use percentage for height to adjust based on viewport height */
     border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+#startButton:hover {
+    background-color: #ff3333;
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
 }
 
 /* Style for the music toggle image */
