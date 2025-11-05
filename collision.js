@@ -71,6 +71,11 @@ function checkCollisions() {
             playGroundCollision();
             playerLife--;
             updateHeartImages();
+
+            // Reset combo when missing a rat
+            combo = 0;
+            comboMultiplier = 1;
+
             items.splice(i, 1);
         }
     }
@@ -127,8 +132,21 @@ function playGroundCollision() {
 
 // Function to handle collision with a regular item
 function handleItemCollision(index) {
-    // Increment the score
-    score++;
+    // Increase combo
+    combo++;
+    totalCatches++;
+    if (combo > maxCombo) maxCombo = combo;
+
+    // Calculate combo multiplier (every 5 catches = 1x multiplier, max 5x)
+    comboMultiplier = Math.min(1 + Math.floor(combo / 5), 5);
+
+    // Calculate points earned with multiplier
+    let pointsEarned = 1 * comboMultiplier;
+    score += pointsEarned;
+
+    // Create score popup and particles
+    createScorePopup(items[index].x + items[index].width / 2, items[index].y, pointsEarned, 'white');
+    createParticles(items[index].x + items[index].width / 2, items[index].y + items[index].height / 2, 'white', 6);
 
     // Remove the collided item from the items array
     items.splice(index, 1);
@@ -139,9 +157,21 @@ function handleItemCollision(index) {
 
 // Function to handle collision with the bonus item
 function handleBonusItemCollision(index) {
+    // Increase combo
+    combo++;
+    totalCatches++;
+    if (combo > maxCombo) maxCombo = combo;
 
-    // Increment the score
-    score++;
+    // Calculate combo multiplier
+    comboMultiplier = Math.min(1 + Math.floor(combo / 5), 5);
+
+    // Calculate points earned (bonus rats worth 2 base points)
+    let pointsEarned = 2 * comboMultiplier;
+    score += pointsEarned;
+
+    // Create score popup and particles
+    createScorePopup(items[index].x + items[index].width / 2, items[index].y, pointsEarned, 'yellow');
+    createParticles(items[index].x + items[index].width / 2, items[index].y + items[index].height / 2, 'yellow', 10);
 
     // Apply the speed bonus to the player
     if( player.speed == original_speed * canvas.width ) {
@@ -167,6 +197,13 @@ function handleBonusItemCollision(index) {
 
 // Function to handle collision with the debuff item
 function handleDebuffItemCollision(index) {
+    // Debuff rats reset your combo!
+    combo = 0;
+    comboMultiplier = 1;
+
+    // Create negative popup and particles
+    createScorePopup(items[index].x + items[index].width / 2, items[index].y, 'COMBO RESET!', 'green');
+    createParticles(items[index].x + items[index].width / 2, items[index].y + items[index].height / 2, 'green', 12);
 
     // Apply the speed Debuff to the player
     if(player.speed == original_speed * canvas.width) {
@@ -192,8 +229,21 @@ function handleDebuffItemCollision(index) {
 
 // Function to handle collision with the life item
 function handleLifeItemCollision(index) {
-    // Increment the score
-    score++;
+    // Increase combo
+    combo++;
+    totalCatches++;
+    if (combo > maxCombo) maxCombo = combo;
+
+    // Calculate combo multiplier
+    comboMultiplier = Math.min(1 + Math.floor(combo / 5), 5);
+
+    // Calculate points earned (life rats worth 3 base points)
+    let pointsEarned = 3 * comboMultiplier;
+    score += pointsEarned;
+
+    // Create score popup and particles
+    createScorePopup(items[index].x + items[index].width / 2, items[index].y, pointsEarned, 'red');
+    createParticles(items[index].x + items[index].width / 2, items[index].y + items[index].height / 2, 'red', 8);
 
     // If player's life is less than 3, recover 1 heart life
     if (playerLife < 3) {
@@ -207,4 +257,33 @@ function handleLifeItemCollision(index) {
 
     // Play the collision sound
     playCollisionSound();
+}
+
+// Function to create score popup
+function createScorePopup(x, y, points, color) {
+    scorePopups.push({
+        x: x,
+        y: y,
+        text: typeof points === 'number' ? '+' + points : points,
+        color: color,
+        alpha: 1.0,
+        velocity: -2 // Move upward
+    });
+}
+
+// Function to create particles
+function createParticles(x, y, color, count = 8) {
+    for (let i = 0; i < count; i++) {
+        const angle = (Math.PI * 2 * i) / count;
+        const speed = 2 + Math.random() * 2;
+        particles.push({
+            x: x,
+            y: y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            color: color,
+            alpha: 1.0,
+            size: 3 + Math.random() * 3
+        });
+    }
 }

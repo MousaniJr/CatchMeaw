@@ -138,6 +138,13 @@ function updateGame(timestamp) {
         // Save the current canvas state
         ctx.save();
 
+        // Add pulsing glow effect for debuff rats
+        if (items[i].image === 'media/ratDebuff.png') {
+            const pulseIntensity = Math.abs(Math.sin(timestamp / 200)) * 15 + 5;
+            ctx.shadowColor = 'green';
+            ctx.shadowBlur = pulseIntensity;
+        }
+
         // Translate to the center of the item
         ctx.translate(items[i].x + items[i].width / 2, items[i].y + items[i].height / 2);
 
@@ -264,6 +271,56 @@ function updateGame(timestamp) {
         }
     }
 
+    // Update and draw particles
+    for (let i = particles.length - 1; i >= 0; i--) {
+        let particle = particles[i];
+
+        // Update particle position
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+        particle.vy += 0.2; // Gravity
+        particle.alpha -= 0.02;
+
+        // Draw particle
+        ctx.save();
+        ctx.globalAlpha = particle.alpha;
+        ctx.fillStyle = particle.color;
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // Remove particle when fully faded
+        if (particle.alpha <= 0) {
+            particles.splice(i, 1);
+        }
+    }
+
+    // Update and draw score popups
+    for (let i = scorePopups.length - 1; i >= 0; i--) {
+        let popup = scorePopups[i];
+
+        // Update popup position and fade
+        popup.y += popup.velocity;
+        popup.alpha -= 0.02;
+
+        // Draw popup
+        ctx.save();
+        ctx.globalAlpha = popup.alpha;
+        ctx.fillStyle = popup.color;
+        ctx.font = 'bold 20px Arial';
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 3;
+        ctx.strokeText(popup.text, popup.x - 20, popup.y);
+        ctx.fillText(popup.text, popup.x - 20, popup.y);
+        ctx.restore();
+
+        // Remove popup when fully faded
+        if (popup.alpha <= 0) {
+            scorePopups.splice(i, 1);
+        }
+    }
+
     // Draw the Score with a shadow
     ctx.fillStyle = 'white';
     ctx.font = 'bold 24px Arial'; // Use the Arial font with a font size of 24 pixels
@@ -277,6 +334,18 @@ function updateGame(timestamp) {
 
     // Draw the High score with a shadow
     ctx.fillText('High Score: ' + highScore, 10, 30);
+
+    // Draw combo counter if combo > 0
+    if (combo > 0) {
+        ctx.fillStyle = comboMultiplier > 1 ? 'yellow' : 'white';
+        ctx.font = 'bold 28px Arial';
+        ctx.shadowColor = 'black';
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+        const comboText = combo + ' Combo! x' + comboMultiplier;
+        const comboWidth = ctx.measureText(comboText).width;
+        ctx.fillText(comboText, canvas.width - comboWidth - 10, 30);
+    }
 
     // Draw heart images
     const heartsContainer = document.getElementById('heartsContainer');

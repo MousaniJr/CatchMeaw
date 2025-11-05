@@ -5,31 +5,39 @@ function showGameOver() {
     // Show GAME OVER text in the middle of the display with a shadow
     ctx.fillStyle = 'red';
     ctx.font = 'bold 60px Arial';
-    ctx.shadowColor = 'black'; // Set the shadow color to black
-    ctx.shadowOffsetX = 5; // Set the horizontal shadow offset
-    ctx.shadowOffsetY = 5; // Set the vertical shadow offset
+    ctx.shadowColor = 'black';
+    ctx.shadowOffsetX = 5;
+    ctx.shadowOffsetY = 5;
     const gameOverText = 'GAME OVER';
     const textWidth = ctx.measureText(gameOverText).width;
     const textX = (canvas.width - textWidth) / 2;
-    const textY = canvas.height * 0.3;
+    const textY = canvas.height * 0.25;
     ctx.fillText(gameOverText, textX, textY);
 
-//    // Reset the shadow settings to avoid affecting other elements
-//    ctx.shadowColor = 'transparent';
-//    ctx.shadowOffsetX = 0;
-//    ctx.shadowOffsetY = 0;
+    // Show final score
+    ctx.fillStyle = 'yellow';
+    ctx.font = 'bold 36px Arial';
+    ctx.shadowColor = 'black';
+    ctx.shadowOffsetX = 3;
+    ctx.shadowOffsetY = 3;
+    const finalScoreText = 'Final Score: ' + score;
+    const finalScoreWidth = ctx.measureText(finalScoreText).width;
+    ctx.fillText(finalScoreText, (canvas.width - finalScoreWidth) / 2, canvas.height * 0.38);
 
-    // Show High Score text in the middle of the display with a shadow
+    // Show statistics
     ctx.fillStyle = 'white';
-    ctx.font = 'bold 30px Arial';
-    ctx.shadowColor = 'black'; // Set the shadow color to black
-    ctx.shadowOffsetX = 3; // Set the horizontal shadow offset
-    ctx.shadowOffsetY = 3; // Set the vertical shadow offset
-    const gameOverHS = 'Your Highest Score: ' + highScore;
-    const HStextWidth = ctx.measureText(gameOverHS).width;
-    const HSx = (canvas.width - HStextWidth) / 2;
-    const HSy = canvas.height * 0.45;
-    ctx.fillText(gameOverHS, HSx, HSy);
+    ctx.font = 'bold 24px Arial';
+
+    const stats = [
+        'High Score: ' + highScore,
+        'Total Catches: ' + totalCatches,
+        'Best Combo: ' + maxCombo + 'x'
+    ];
+
+    for (let i = 0; i < stats.length; i++) {
+        const statWidth = ctx.measureText(stats[i]).width;
+        ctx.fillText(stats[i], (canvas.width - statWidth) / 2, canvas.height * 0.48 + i * 35);
+    }
 
     // Show the restart button
     const restartButton = document.getElementById('restartButton');
@@ -57,6 +65,14 @@ function resetGame() {
     player.y = canvas.height - 50;
     resetHearts(); // Reset the heart images to full hearts
     playerLife = 3;
+
+    // Reset combo system variables
+    combo = 0;
+    maxCombo = 0;
+    comboMultiplier = 1;
+    totalCatches = 0;
+    scorePopups = [];
+    particles = [];
 
     // Hide the "GAME OVER" text and restart button
     gameOver = false;
