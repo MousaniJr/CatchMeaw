@@ -69,7 +69,7 @@ function keyDownHandler(event) {
             leftImageChangeTimer = setInterval(changeLeftImage, imageChangeSpeed); // Set interval for image change
         }
 
-    } else if (event.code === 'Space' || event.key === "w" || event.key === "W") {
+    } else if (event.code === 'Space' || event.key === "w" || event.key === "W" || event.key === "ArrowUp") {
         // Check if the player is not already jumping
         if (!isJumping) {
             isJumping = true;
