@@ -5,6 +5,8 @@ body, html {
     overflow: hidden; /* Prevents scrollbars */
     background-color: #222; /* Set the background color of the page */
     height: 100%;
+    width: 100%;
+    position: relative;
 }
 
 #gameContainer {
