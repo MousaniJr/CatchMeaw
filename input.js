@@ -26,7 +26,7 @@ function keyDownHandler(event) {
         rightPressed = false;
         facingRight = false;
 
-    } else if (event.code === 'Space' || event.key === "w" || event.key === "W") {
+    } else if (event.code === 'Space' || event.key === "w" || event.key === "W" || event.keyCode === 38 || event.key === "ArrowUp") {
         // Check if the player is not already jumping
         if (!isJumping) {
             isJumping = true;
