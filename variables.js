@@ -52,5 +52,17 @@ let isGameRunning = false;
 let debuffed = false;
 let buffed = false;
 
+// Spritesheet animation variables
+let walkingSpritesheet = null;
+let spritesheetLoaded = false;
+const SPRITE_COLS = 4;
+const SPRITE_ROWS = 3;
+const SPRITE_FRAMES = 12;
+let currentFrame = 0;
+let animationTimer = 0;
+const ANIMATION_SPEED = 80; // milliseconds per frame (default)
+let currentAnimationSpeed = 80; // Current animation speed (can be modified by buffs/debuffs)
+let facingRight = true; // Track player direction
+
 
 

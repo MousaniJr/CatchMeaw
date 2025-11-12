@@ -7,67 +7,24 @@ let rightPressed = false;
 let leftPressed = false;
 let isJumpButtonPressed = false;
 
-//let currentPlayerImage = 'media/player-right.png'; // Initial player image
-
-const playerImagesRight = [
-    'media/player-right00.png', // Replace with actual image paths
-    'media/player-right01.png', // Replace with actual image paths
-    'media/player-right02.png',  // Replace with actual image paths
-    'media/player-right03.png',  // Replace with actual image paths
-    'media/player-right04.png',  // Replace with actual image paths
-    'media/player-right05.png',  // Replace with actual image paths
-    'media/player-right06.png',  // Replace with actual image paths
-    'media/player-right07.png'  // Replace with actual image paths
-];
-let currentRightImageIndex = 0;
-let rightImageChangeTimer = null; // Timer for right movement image change
-
-
-const playerImagesLeft = [
-    'media/player-left00.png', // Replace with actual image paths
-    'media/player-left01.png', // Replace with actual image paths
-    'media/player-left02.png',  // Replace with actual image paths
-    'media/player-left03.png',  // Replace with actual image paths
-    'media/player-left04.png',  // Replace with actual image paths
-    'media/player-left05.png',  // Replace with actual image paths
-    'media/player-left06.png',  // Replace with actual image paths
-    'media/player-left07.png'  // Replace with actual image paths
-];
-let currentLeftImageIndex = 0;
-let leftImageChangeTimer = null; // Timer for left movement image change
-
-
-// Preload player images
-const preloadedImages = [];
-[...playerImagesRight, ...playerImagesLeft].forEach((imagePath) => {
-    const image = new Image();
-    image.src = imagePath;
-    preloadedImages.push(image);
-});
-
-// Variable to control image change speed
-let imageChangeSpeed = player.speed * 25; // Initial speed in milliseconds
+// Load the walking spritesheet
+walkingSpritesheet = new Image();
+walkingSpritesheet.src = 'media/combined_sprite_Walking.png';
+walkingSpritesheet.onload = function() {
+    spritesheetLoaded = true;
+    console.log('Walking spritesheet loaded successfully');
+};
 
 function keyDownHandler(event) {
     if (event.keyCode === 39 || event.key === "d" || event.key === "D") {
         rightPressed = true;
         leftPressed = false;
-
-        clearInterval(leftImageChangeTimer); // Clear left image change timer
-
-        if (!rightImageChangeTimer) {
-            rightImageChangeTimer = setInterval(changeRightImage, imageChangeSpeed); // Set interval for image change
-        }
+        facingRight = true;
 
     } else if (event.keyCode === 37 || event.key === "a" || event.key === "A") {
         leftPressed = true;
         rightPressed = false;
-
-        clearInterval(rightImageChangeTimer); // Clear right image change timer
-
-        if (!leftImageChangeTimer) {
-            leftImageChangeTimer = setInterval(changeLeftImage, imageChangeSpeed); // Set interval for image change
-        }
+        facingRight = false;
 
     } else if (event.code === 'Space' || event.key === "w" || event.key === "W") {
         // Check if the player is not already jumping
@@ -81,27 +38,9 @@ function keyDownHandler(event) {
 function keyUpHandler(event) {
     if (event.keyCode === 39 || event.key === "d" || event.key === "D") {
         rightPressed = false;
-
-        clearInterval(rightImageChangeTimer); // Clear right image change timer
-        rightImageChangeTimer = null;
-
     } else if (event.keyCode === 37 || event.key === "a" || event.key === "A") {
         leftPressed = false;
-
-        clearInterval(leftImageChangeTimer); // Clear left image change timer
-        leftImageChangeTimer = null;
-
     }
-}
-
-function changeRightImage() {
-    playerImage.src = playerImagesRight[currentRightImageIndex];
-    currentRightImageIndex = (currentRightImageIndex + 1) % playerImagesRight.length;
-}
-
-function changeLeftImage() {
-    playerImage.src = playerImagesLeft[currentLeftImageIndex];
-    currentLeftImageIndex = (currentLeftImageIndex + 1) % playerImagesLeft.length;
 }
 
 // Touch event handling
@@ -121,11 +60,11 @@ gameCanvas.addEventListener('touchstart', function(event) {
     if (touchStartX < halfScreenWidth) {
         leftPressed = true;
         rightPressed = false;
-        playerImage.src = 'media/player-left00.gif'; // Replace with the actual path to the left player image
+        facingRight = false;
     } else {
         rightPressed = true;
         leftPressed = false;
-        playerImage.src = 'media/player-right00.png'; // Replace with the actual path to the right player image
+        facingRight = true;
     }
 });
 
@@ -141,11 +80,11 @@ gameCanvas.addEventListener('touchmove', function(event) {
     if (movementX < 0) {
         leftPressed = true;
         rightPressed = false;
-        playerImage.src = 'media/player-left00.gif'; // Replace with the actual path to the left player image
+        facingRight = false;
     } else {
         rightPressed = true;
         leftPressed = false;
-        playerImage.src = 'media/player-right00.png'; // Replace with the actual path to the right player image
+        facingRight = true;
     }
 });
 

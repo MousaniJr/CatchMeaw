@@ -176,10 +176,10 @@ function handleBonusItemCollision(index) {
     // Apply the speed bonus to the player
     if( player.speed == original_speed * canvas.width ) {
         player.speed = player.speed * 1.50; // The player gains a speed bonus of +2
-        imageChangeSpeed = 50; // player image change faster due the speed up
+        currentAnimationSpeed = 50; // player animation faster due the speed up
     } else if (debuffed) {
         player.speed = original_speed * canvas.width * 1.50; // The player gains a speed bonus of +2
-        imageChangeSpeed = 50; // player image change faster due the speed up
+        currentAnimationSpeed = 50; // player animation faster due the speed up
     }
 
     // Set the duration of the speed bonus (in milliseconds)
@@ -208,10 +208,10 @@ function handleDebuffItemCollision(index) {
     // Apply the speed Debuff to the player
     if(player.speed == original_speed * canvas.width) {
         player.speed = player.speed * 0.50; // The player gains a Debuff speed of half
-        imageChangeSpeed = 150; // player image change low due the Debuff speed
+        currentAnimationSpeed = 150; // player animation slower due the Debuff speed
     } else if (buffed) {
         player.speed = original_speed * canvas.width * 0.50;
-        imageChangeSpeed = 150; // player image change low due the Debuff speed
+        currentAnimationSpeed = 150; // player animation slower due the Debuff speed
     }
 
     // Set the duration of the speed bonus (in milliseconds)
