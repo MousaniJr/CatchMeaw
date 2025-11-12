@@ -103,8 +103,49 @@ function updateGame(timestamp) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
-    // Draw the player image
-    ctx.drawImage(playerImage, player.x, player.y, player.width, player.height);
+    // Update animation frame if player is moving
+    if ((rightPressed || leftPressed) && spritesheetLoaded) {
+        animationTimer += deltaTime;
+        if (animationTimer >= currentAnimationSpeed) {
+            currentFrame = (currentFrame + 1) % SPRITE_FRAMES;
+            animationTimer = 0;
+        }
+    }
+
+    // Draw the player using spritesheet
+    if (spritesheetLoaded) {
+        // Calculate frame position in spritesheet
+        const frameWidth = walkingSpritesheet.width / SPRITE_COLS;
+        const frameHeight = walkingSpritesheet.height / SPRITE_ROWS;
+        const col = currentFrame % SPRITE_COLS;
+        const row = Math.floor(currentFrame / SPRITE_COLS);
+        const sx = col * frameWidth;
+        const sy = row * frameHeight;
+
+        ctx.save();
+
+        // Flip horizontally if facing left
+        if (!facingRight) {
+            ctx.translate(player.x + player.width, player.y);
+            ctx.scale(-1, 1);
+            ctx.drawImage(
+                walkingSpritesheet,
+                sx, sy, frameWidth, frameHeight,
+                0, 0, player.width, player.height
+            );
+        } else {
+            ctx.drawImage(
+                walkingSpritesheet,
+                sx, sy, frameWidth, frameHeight,
+                player.x, player.y, player.width, player.height
+            );
+        }
+
+        ctx.restore();
+    } else {
+        // Fallback: draw the old player image if spritesheet hasn't loaded
+        ctx.drawImage(playerImage, player.x, player.y, player.width, player.height);
+    }
 
 
     // Update the position of the speedBonusTime element under the hearts container
@@ -125,7 +166,7 @@ function updateGame(timestamp) {
         buffed = false;
         speedBonusTime.textContent = '';
         player.speed = originalPlayerSpeed; // back to the normal player speed
-        imageChangeSpeed = 100; // back to the normal image speed
+        currentAnimationSpeed = ANIMATION_SPEED; // back to the normal animation speed
     }
 
 
