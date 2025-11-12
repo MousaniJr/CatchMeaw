@@ -376,17 +376,23 @@ function updateGame(timestamp) {
     // Draw the High score with a shadow
     ctx.fillText('High Score: ' + highScore, 10, 30);
 
+    // Reset shadow for combo text
+    ctx.shadowColor = 'transparent';
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+
     // Draw combo counter if combo > 0 (centered below hearts/speed bonus area)
     if (combo > 0) {
         ctx.fillStyle = comboMultiplier > 1 ? 'yellow' : 'white';
         ctx.font = 'bold 28px Arial';
-        ctx.shadowColor = 'black';
-        ctx.shadowOffsetX = 2;
-        ctx.shadowOffsetY = 2;
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 3;
         const comboText = combo + ' Combo! x' + comboMultiplier;
         const comboWidth = ctx.measureText(comboText).width;
-        // Center the combo text horizontally
-        ctx.fillText(comboText, (canvas.width - comboWidth) / 2, 100);
+        const comboX = (canvas.width - comboWidth) / 2;
+        // Draw text with stroke for better visibility
+        ctx.strokeText(comboText, comboX, 100);
+        ctx.fillText(comboText, comboX, 100);
     }
 
     // Draw heart images
