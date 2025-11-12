@@ -14,8 +14,8 @@ if (isMobile) {
     document.body.style.overflow = 'hidden';
 }
 // Define game variables and objects
-const playerWidth = canvas.width * 0.18; // 18% of canvas width
-const playerHeight = canvas.height * 0.18; // 18% of canvas height
+const playerWidth = canvas.width * 0.27; // 27% of canvas width (increased 50% from 18%)
+const playerHeight = canvas.height * 0.27; // 27% of canvas height (increased 50% from 18%)
 const playerSpeed = original_speed * canvas.width; // 0.5% of canvas width
 
 let player = {
